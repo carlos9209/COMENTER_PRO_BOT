@@ -1,4 +1,4 @@
-// COMENTER PRO BOT - Versão com Digitação 100% Correta
+// COMENTER PRO BOT - Versão com Limpeza Total Antes de Digitar
 // GitHub: https://ratonixxx.github.io/COMENTER_PRO_BOT
 
 (function() {
@@ -57,7 +57,7 @@
                     <div style="font-size: 20px; margin-right: 10px;">💬</div>
                     <div>
                         <div style="color: #3498db; font-weight: bold; font-size: 16px;">COMENTER PRO</div>
-                        <div style="color: #bdc3c7; font-size: 10px;">DIGITAÇÃO 100% CORRETA</div>
+                        <div style="color: #bdc3c7; font-size: 10px;">LIMPESA TOTAL + DIGITAÇÃO</div>
                     </div>
                 </div>
                 <div style="display: flex; gap: 5px;">
@@ -93,11 +93,11 @@
                     </div>
                     
                     <div style="margin: 10px 0;">
-                        <label style="display: block; margin-bottom: 5px; font-size: 12px;">🔧 Método de digitação:</label>
-                        <select id="typingMethod" style="width: 100%; padding: 8px; border: none; border-radius: 5px; background: #2c3e50; color: white;">
-                            <option value="direct">Direto (RECOMENDADO)</option>
-                            <option value="events">Com eventos de teclado</option>
-                            <option value="mixed">Misto</option>
+                        <label style="display: block; margin-bottom: 5px; font-size: 12px;">🧹 Limpeza:</label>
+                        <select id="cleanMethod" style="width: 100%; padding: 8px; border: none; border-radius: 5px; background: #2c3e50; color: white;">
+                            <option value="aggressive">Agressiva (RECOMENDADO)</option>
+                            <option value="normal">Normal</option>
+                            <option value="light">Leve</option>
                         </select>
                     </div>
 
@@ -105,10 +105,10 @@
                         <label style="display: block; margin-bottom: 5px; font-size: 12px;">✅ Verificação:</label>
                         <div style="display: flex; flex-wrap: wrap; gap: 5px; margin-top: 5px;">
                             <label style="font-size: 11px; display: flex; align-items: center;">
-                                <input type="checkbox" id="doubleCheck" checked> Verificação dupla
+                                <input type="checkbox" id="preClean" checked> Limpeza ANTES de cada mensagem
                             </label>
                             <label style="font-size: 11px; display: flex; align-items: center;">
-                                <input type="checkbox" id="forceCorrect" checked> Forçar correção
+                                <input type="checkbox" id="postVerify" checked> Verificar DEPOIS de digitar
                             </label>
                         </div>
                     </div>
@@ -119,10 +119,9 @@
                     <textarea id="comenterMessages" rows="4" placeholder="Digite cada mensagem em uma linha"
                         style="width: 100%; padding: 8px; border: none; border-radius: 5px; background: #2c3e50; color: white; resize: vertical; font-size: 12px;">Olá
 Teste
-Funcionando
-Gostei muito
-Parabéns</textarea>
-                    <div style="color: #bdc3c7; font-size: 10px; margin-top: 5px;">💡 Use mensagens SIMPLES para testar</div>
+Mensagem 3
+Última mensagem</textarea>
+                    <div style="color: #bdc3c7; font-size: 10px; margin-top: 5px;">💡 Cada mensagem é LIMPA + DIGITADA do zero</div>
                 </div>
 
                 <div style="display: flex; gap: 10px; margin-bottom: 15px;">
@@ -141,19 +140,19 @@ Parabéns</textarea>
                 <div id="comenterStatus" style="
                     padding: 10px; border-radius: 5px; background: #34495e; 
                     font-size: 11px; text-align: center; min-height: 20px;">
-                    ✅ Digitação 100% correta - PRONTO
+                    ✅ Limpeza total ativada - PRONTO
                 </div>
 
                 <div style="text-align: center; margin-top: 15px; padding-top: 10px; border-top: 1px solid #34495e;">
                     <p style="color: #7f8c8d; font-size: 10px; margin: 0;">
-                        F2: Ocultar/Mostrar | Digitação GARANTIDA
+                        F2: Ocultar/Mostrar | LIMPEZA GARANTIDA
                     </p>
                 </div>
             </div>
 
             <div id="minimizedPanel" style="display: none; text-align: center; padding: 10px;">
                 <div style="color: #3498db; font-weight: bold; font-size: 14px;">COMENTER PRO</div>
-                <div style="color: #bdc3c7; font-size: 10px; margin: 5px 0;" id="minimizedStatus">Digitação correta</div>
+                <div style="color: #bdc3c7; font-size: 10px; margin: 5px 0;" id="minimizedStatus">Limpando + Digitando</div>
                 <button onclick="window.maximizePanel()" style="
                     background: #3498db; color: white; border: none; 
                     padding: 5px 10px; border-radius: 3px; cursor: pointer; 
@@ -291,7 +290,7 @@ Parabéns</textarea>
         }
     };
 
-    // ========== SISTEMA DE DIGITAÇÃO 100% CORRETA ==========
+    // ========== SISTEMA COM LIMPEZA TOTAL ==========
     window.startComenterBot = async function() {
         if (window.comenterRunning) {
             updateStatus('⚠️ Bot já está rodando!', '#f39c12');
@@ -300,7 +299,7 @@ Parabéns</textarea>
 
         const interval = parseInt(document.getElementById('comenterInterval').value) * 60000;
         const messages = document.getElementById('comenterMessages').value.split('\n').filter(m => m.trim());
-        const typingMethod = document.getElementById('typingMethod').value;
+        const cleanMethod = document.getElementById('cleanMethod').value;
 
         if (messages.length === 0) {
             updateStatus('❌ Digite pelo menos uma mensagem!', '#e74c3c');
@@ -319,7 +318,7 @@ Parabéns</textarea>
 
             const message = messages[messageIndex % messages.length];
             
-            const success = await guaranteedTyping(message, typingMethod);
+            const success = await cleanAndType(message, cleanMethod);
 
             if (success) {
                 window.messageCount++;
@@ -353,205 +352,194 @@ Parabéns</textarea>
         }
     };
 
-    // ========== MÉTODO DE DIGITAÇÃO GARANTIDA ==========
-    async function guaranteedTyping(message, method) {
+    // ========== LIMPEZA TOTAL + DIGITAÇÃO ==========
+    async function cleanAndType(message, cleanMethod) {
         try {
-            // 1. Encontrar campo
+            updateStatus('🔍 Procurando campo...', '#3498db');
+            
+            // 1. Encontrar campo NOVO a cada mensagem
             const field = await findCommentField();
             if (!field) {
                 updateStatus('❌ Campo não encontrado!', '#e74c3c');
                 return false;
             }
 
-            // 2. Foco no campo
-            await simpleFocus(field);
+            // 2. Foco COMPLETO no campo
+            await completeFocus(field);
             if (!window.comenterRunning) return false;
 
-            // 3. LIMPAR CAMPO de forma GARANTIDA
-            await guaranteedClear(field);
+            // 3. LIMPEZA TOTAL OBRIGATÓRIA
+            updateStatus('🧹 LIMPANDO campo...', '#f39c12');
+            const cleanSuccess = await completeClean(field, cleanMethod);
             
-            // 4. DIGITAR usando método selecionado
-            updateStatus('⌨️ Digitando...', '#3498db');
+            if (!cleanSuccess) {
+                updateStatus('❌ Falha na limpeza', '#e74c3c');
+                return false;
+            }
+
+            // 4. VERIFICAR se campo está VAZIO
+            const currentText = getFieldText(field);
+            if (currentText.length > 0) {
+                updateStatus('🔄 Campo não vazio, limpando novamente...', '#f39c12');
+                await completeClean(field, 'aggressive');
+            }
+
+            // 5. DIGITAR mensagem NOVA do ZERO
+            updateStatus('⌨️ Digitando MENSAGEM NOVA...', '#3498db');
             await delay(500);
 
-            let success = false;
+            const typeSuccess = await freshType(field, message);
             
-            switch(method) {
-                case 'direct':
-                    success = await directTextInsert(field, message);
-                    break;
-                case 'events':
-                    success = await eventBasedTyping(field, message);
-                    break;
-                case 'mixed':
-                    success = await mixedTyping(field, message);
-                    break;
+            if (!typeSuccess) {
+                updateStatus('❌ Falha na digitação', '#e74c3c');
+                return false;
             }
 
-            // 5. VERIFICAÇÃO FINAL OBRIGATÓRIA
-            if (success && document.getElementById('doubleCheck').checked) {
-                success = await verifyAndCorrect(field, message);
-            }
-
-            // 6. Enviar
-            if (success) {
-                updateStatus('📤 Enviando...', '#3498db');
-                const sent = await realSend(field);
-                
-                if (sent) {
-                    updateStatus('✅ Comentário enviado!', '#27ae60');
-                    return true;
+            // 6. VERIFICAÇÃO FINAL
+            if (document.getElementById('postVerify').checked) {
+                const finalText = getFieldText(field);
+                if (finalText !== message) {
+                    updateStatus('🔄 Texto errado, corrigindo...', '#f39c12');
+                    await completeClean(field, 'aggressive');
+                    await freshType(field, message);
                 }
+            }
+
+            // 7. Enviar
+            updateStatus('📤 Enviando...', '#3498db');
+            const sent = await realSend(field);
+            
+            if (sent) {
+                updateStatus('✅ Comentário enviado!', '#27ae60');
+                return true;
             }
             
             return false;
             
         } catch (error) {
-            console.error('Erro na digitação:', error);
-            updateStatus('❌ Erro na digitação', '#e74c3c');
+            console.error('Erro:', error);
+            updateStatus('❌ Erro no processo', '#e74c3c');
             return false;
         }
     }
 
-    // ========== MÉTODO 1: INSERÇÃO DIRETA ==========
-    async function directTextInsert(field, message) {
+    // ========== LIMPEZA COMPLETA ==========
+    async function completeClean(field, method) {
         try {
-            // INSERÇÃO DIRETA do texto completo
+            // MÉTODO AGRESSIVO (RECOMENDADO)
+            if (method === 'aggressive') {
+                // 1. Selecionar TODO o texto
+                field.select();
+                field.setSelectionRange(0, 99999);
+                
+                // 2. Limpar de MÚLTIPLAS formas
+                if (field.tagName === 'TEXTAREA' || field.tagName === 'INPUT') {
+                    field.value = '';
+                    field.defaultValue = '';
+                }
+                
+                if (field.isContentEditable) {
+                    field.textContent = '';
+                    field.innerHTML = '';
+                }
+                
+                // 3. Disparar TODOS os eventos possíveis
+                const events = ['select', 'input', 'change', 'keydown', 'keyup', 'keypress', 'cut', 'copy'];
+                events.forEach(eventType => {
+                    try {
+                        if (eventType.startsWith('key')) {
+                            const event = new KeyboardEvent(eventType, { bubbles: true });
+                            field.dispatchEvent(event);
+                        } else {
+                            const event = new Event(eventType, { bubbles: true });
+                            field.dispatchEvent(event);
+                        }
+                    } catch (e) {}
+                });
+                
+                // 4. Backspace para garantir
+                await simulateBackspace(field);
+                
+            } else if (method === 'normal') {
+                // Método normal
+                if (field.tagName === 'TEXTAREA' || field.tagName === 'INPUT') {
+                    field.value = '';
+                } else if (field.isContentEditable) {
+                    field.textContent = '';
+                }
+                triggerInputEvents(field);
+                
+            } else {
+                // Método leve
+                if (field.tagName === 'TEXTAREA' || field.tagName === 'INPUT') {
+                    field.value = '';
+                } else if (field.isContentEditable) {
+                    field.textContent = '';
+                }
+            }
+            
+            await delay(300);
+            return true;
+            
+        } catch (error) {
+            console.error('Erro na limpeza:', error);
+            return false;
+        }
+    }
+
+    async function simulateBackspace(field) {
+        // Simular Backspace para limpar
+        const backspaceEvent = new KeyboardEvent('keydown', {
+            key: 'Backspace',
+            code: 'Backspace',
+            keyCode: 8,
+            which: 8,
+            bubbles: true
+        });
+        field.dispatchEvent(backspaceEvent);
+        await delay(50);
+    }
+
+    // ========== DIGITAÇÃO FRESCA ==========
+    async function freshType(field, message) {
+        try {
+            // INSERÇÃO DIRETA e SIMPLES
             if (field.tagName === 'TEXTAREA' || field.tagName === 'INPUT') {
                 field.value = message;
             } else if (field.isContentEditable) {
                 field.textContent = message;
             }
             
-            // Disparar eventos necessários
-            triggerAllEvents(field);
-            await delay(300);
+            // Apenas eventos ESSENCIAIS
+            triggerInputEvents(field);
+            await delay(200);
             
             return true;
         } catch (error) {
-            console.error('Erro na inserção direta:', error);
+            console.error('Erro na digitação:', error);
             return false;
         }
     }
 
-    // ========== MÉTODO 2: DIGITAÇÃO COM EVENTOS ==========
-    async function eventBasedTyping(field, message) {
-        try {
-            const characters = message.split('');
-            
-            for (let i = 0; i < characters.length; i++) {
-                if (!window.comenterRunning) return false;
-
-                const char = characters[i];
-                
-                // Método SIMPLES e DIRETO para cada caractere
-                if (field.tagName === 'TEXTAREA' || field.tagName === 'INPUT') {
-                    field.value += char;
-                } else if (field.isContentEditable) {
-                    field.textContent += char;
-                }
-                
-                // Apenas eventos essenciais
-                const inputEvent = new Event('input', { bubbles: true });
-                field.dispatchEvent(inputEvent);
-                
-                await delay(80 + Math.random() * 40);
-            }
-            
-            return true;
-        } catch (error) {
-            console.error('Erro na digitação com eventos:', error);
-            return false;
-        }
+    function triggerInputEvents(field) {
+        // Apenas eventos necessários
+        const inputEvent = new Event('input', { bubbles: true });
+        field.dispatchEvent(inputEvent);
+        
+        const changeEvent = new Event('change', { bubbles: true });
+        field.dispatchEvent(changeEvent);
     }
 
-    // ========== MÉTODO 3: MISTO ==========
-    async function mixedTyping(field, message) {
-        try {
-            // Dividir em partes e inserir em blocos
-            const parts = splitMessage(message);
-            
-            for (let part of parts) {
-                if (!window.comenterRunning) return false;
-                
-                if (field.tagName === 'TEXTAREA' || field.tagName === 'INPUT') {
-                    field.value += part;
-                } else if (field.isContentEditable) {
-                    field.textContent += part;
-                }
-                
-                triggerAllEvents(field);
-                await delay(200 + Math.random() * 100);
-            }
-            
-            return true;
-        } catch (error) {
-            console.error('Erro no método misto:', error);
-            return false;
-        }
-    }
-
-    // ========== FUNÇÕES AUXILIARES GARANTIDAS ==========
-    async function guaranteedClear(field) {
-        // Método INFALÍVEL para limpar campo
-        if (field.tagName === 'TEXTAREA' || field.tagName === 'INPUT') {
-            field.value = '';
-            field.textContent = '';
-        }
-        if (field.isContentEditable) {
-            field.textContent = '';
-            field.innerHTML = '';
-        }
+    // ========== FUNÇÕES AUXILIARES ==========
+    async function completeFocus(field) {
+        // Foco COMPLETO no campo
+        field.focus();
+        field.click();
         
-        // Disparar TODOS os eventos possíveis
-        triggerAllEvents(field);
-        await delay(200);
-    }
-
-    function triggerAllEvents(field) {
-        const events = ['input', 'change', 'keydown', 'keyup', 'keypress', 'blur', 'focus'];
+        const focusEvent = new FocusEvent('focus', { bubbles: true });
+        field.dispatchEvent(focusEvent);
         
-        events.forEach(eventType => {
-            try {
-                if (eventType.startsWith('key')) {
-                    const event = new KeyboardEvent(eventType, { bubbles: true });
-                    field.dispatchEvent(event);
-                } else {
-                    const event = new Event(eventType, { bubbles: true });
-                    field.dispatchEvent(event);
-                }
-            } catch (e) {
-                // Ignora erros em eventos
-            }
-        });
-    }
-
-    function splitMessage(message) {
-        // Divide a mensagem em partes de 2-4 caracteres
-        const parts = [];
-        for (let i = 0; i < message.length; i += 2 + Math.floor(Math.random() * 3)) {
-            parts.push(message.substring(i, i + 2 + Math.floor(Math.random() * 3)));
-        }
-        return parts;
-    }
-
-    async function verifyAndCorrect(field, expectedText) {
-        const actualText = getFieldText(field);
-        
-        if (actualText === expectedText) {
-            return true;
-        }
-        
-        if (document.getElementById('forceCorrect').checked) {
-            updateStatus('🔧 Corrigindo texto...', '#f39c12');
-            await guaranteedClear(field);
-            await delay(300);
-            
-            // Tenta o método direto para correção
-            return await directTextInsert(field, expectedText);
-        }
-        
-        return false;
+        await delay(400);
     }
 
     function getFieldText(field) {
@@ -563,18 +551,12 @@ Parabéns</textarea>
         return '';
     }
 
-    async function simpleFocus(field) {
-        field.focus();
-        field.click();
-        await delay(300);
-    }
-
     async function realSend(field) {
-        // Tentar botão de enviar primeiro
+        // Tentar botão primeiro
         const buttonSent = await findAndClickSendButton();
         if (buttonSent) return true;
         
-        // Se não, tentar Enter
+        // Tentar Enter
         return await simulateEnterKey(field);
     }
 
@@ -602,6 +584,7 @@ Parabéns</textarea>
         const selectors = [
             'textarea',
             'input[type="text"]',
+            'input[type="search"]',
             '[contenteditable="true"]',
             '[role="textbox"]',
             '.comment-input',
@@ -630,7 +613,10 @@ Parabéns</textarea>
             'button:contains("Comment")',
             'button:contains("Post")',
             'button:contains("Send")',
-            '[data-testid="tweetButton"]'
+            '[data-testid="tweetButton"]',
+            'button[class*="comment"]',
+            'button[class*="send"]',
+            'button[class*="post"]'
         ];
 
         for (const selector of buttonSelectors) {
@@ -639,7 +625,7 @@ Parabéns</textarea>
                 for (const button of buttons) {
                     if (isVisible(button) && !button.disabled) {
                         button.click();
-                        await delay(1000);
+                        await delay(1500);
                         return true;
                     }
                 }
@@ -697,5 +683,5 @@ Parabéns</textarea>
         document.getElementById('closeBtn').onclick = window.closePanel;
     }, 100);
 
-    console.log('🚀 COMENTER PRO - Digitação 100% CORRETA ativada!');
+    console.log('🚀 COMENTER PRO - Limpeza TOTAL ativada!');
 })();
