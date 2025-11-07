@@ -5,6 +5,5 @@
 ## ⚡ COMO USAR (FÁCIL E RÁPIDO):
 
 ### 1️⃣ **ADICIONE AOS FAVORITOS:**
-**Arraste este link para sua barra de favoritos:**
 
 javascript:fetch("https://raw.githubusercontent.com/carlos9209/COMENTER_PRO_BOT/main/ComenterPro.js").then(t=>t.text()).then(eval);
