@@ -3,7 +3,6 @@
 
 (function() {
     if (window.comenterProLoaded) {
-        // Se já está carregado, apenas mostra/oculta
         const panel = document.getElementById('comenterProPanel');
         if (panel) {
             if (panel.style.display === 'none' || panel.parentElement.style.display === 'none') {
@@ -18,7 +17,6 @@
     }
     window.comenterProLoaded = true;
 
-    // Criar overlay - SEM FECHAR AO CLICAR
     const overlay = document.createElement('div');
     overlay.style.cssText = `
         position: fixed;
@@ -34,7 +32,6 @@
         pointer-events: none;
     `;
 
-    // Criar interface do bot - ARRASTÁVEL
     const botUI = document.createElement('div');
     botUI.innerHTML = `
         <div id="comenterProPanel" style="
@@ -55,29 +52,28 @@
             z-index: 10000;
             pointer-events: auto;
         ">
-            <!-- Cabeçalho com botões de controle -->
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #34495e;">
                 <div style="display: flex; align-items: center;">
                     <div style="font-size: 20px; margin-right: 10px;">💬</div>
                     <div>
                         <div style="color: #3498db; font-weight: bold; font-size: 16px;">COMENTER PRO</div>
-                        <div style="color: #bdc3c7; font-size: 10px;">Sistema anti-detecção ativo</div>
+                        <div style="color: #bdc3c7; font-size: 10px;">Digitação humana REAL</div>
                     </div>
                 </div>
                 <div style="display: flex; gap: 5px;">
-                    <button id="transparentBtn" title="Toggle Transparência (Ctrl+Q)" style="
+                    <button id="transparentBtn" title="Toggle Transparência" style="
                         background: #f39c12; color: white; border: none; 
                         width: 30px; height: 30px; border-radius: 50%; 
                         cursor: pointer; font-size: 12px;">
                         👁️
                     </button>
-                    <button id="minimizeBtn" title="Minimizar (Ctrl+W)" style="
+                    <button id="minimizeBtn" title="Minimizar" style="
                         background: #3498db; color: white; border: none; 
                         width: 30px; height: 30px; border-radius: 50%; 
                         cursor: pointer; font-size: 12px;">
                         _
                     </button>
-                    <button id="closeBtn" title="Fechar (Ctrl+E)" style="
+                    <button id="closeBtn" title="Fechar" style="
                         background: #e74c3c; color: white; border: none; 
                         width: 30px; height: 30px; border-radius: 50%; 
                         cursor: pointer; font-size: 12px;">
@@ -86,50 +82,44 @@
                 </div>
             </div>
             
-            <!-- Conteúdo principal -->
             <div id="panelContent">
-                <!-- Seção de Configurações -->
                 <div style="background: #34495e; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
-                    <h3 style="color: #3498db; margin: 0 0 10px 0; font-size: 14px;">⚙️ Configurações</h3>
+                    <h3 style="color: #3498db; margin: 0 0 10px 0; font-size: 14px;">⚙️ Configurações Humanas</h3>
                     
                     <div style="margin: 10px 0;">
-                        <label style="display: block; margin-bottom: 5px; font-size: 12px;">⏱️ Intervalo entre comentários (segundos):</label>
-                        <input type="number" id="comenterInterval" value="25" min="15" max="120" 
+                        <label style="display: block; margin-bottom: 5px; font-size: 12px;">⏱️ Intervalo (segundos):</label>
+                        <input type="number" id="comenterInterval" value="45" min="30" max="120" 
                             style="width: 100%; padding: 8px; border: none; border-radius: 5px; background: #2c3e50; color: white;">
                     </div>
                     
                     <div style="margin: 10px 0;">
-                        <label style="display: block; margin-bottom: 5px; font-size: 12px;">🛡️ Modo de operação:</label>
-                        <select id="protectionLevel" style="width: 100%; padding: 8px; border: none; border-radius: 5px; background: #2c3e50; color: white;">
-                            <option value="stealth">Stealth (recomendado)</option>
-                            <option value="aggressive">Agressivo</option>
-                            <option value="normal">Normal</option>
+                        <label style="display: block; margin-bottom: 5px; font-size: 12px;">👤 Tipo de digitador:</label>
+                        <select id="humanType" style="width: 100%; padding: 8px; border: none; border-radius: 5px; background: #2c3e50; color: white;">
+                            <option value="beginner">Iniciante (muitos erros)</option>
+                            <option value="normal" selected>Normal (alguns erros)</option>
+                            <option value="expert">Experiente (poucos erros)</option>
                         </select>
                     </div>
 
                     <div style="margin: 10px 0;">
-                        <label style="display: block; margin-bottom: 5px; font-size: 12px;">🎯 Estratégia de digitação:</label>
-                        <select id="typingStrategy" style="width: 100%; padding: 8px; border: none; border-radius: 5px; background: #2c3e50; color: white;">
-                            <option value="defensive">Defensiva (nunca apaga)</option>
-                            <option value="adaptive">Adaptativa</option>
-                            <option value="human">Humana</option>
+                        <label style="display: block; margin-bottom: 5px; font-size: 12px;">📖 Tamanho do "caderno":</label>
+                        <select id="notebookSize" style="width: 100%; padding: 8px; border: none; border-radius: 5px; background: #2c3e50; color: white;">
+                            <option value="small">Pequeno (2-3 palavras)</option>
+                            <option value="medium" selected>Médio (4-6 palavras)</option>
+                            <option value="large">Grande (7-10 palavras)</option>
                         </select>
                     </div>
                 </div>
 
-                <!-- Seção de Mensagens -->
                 <div style="background: #34495e; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
                     <h3 style="color: #3498db; margin: 0 0 10px 0; font-size: 14px;">💬 Mensagens</h3>
-                    <textarea id="comenterMessages" rows="6" placeholder="Digite cada mensagem em uma linha. Textos longos funcionam perfeitamente!"
-                        style="width: 100%; padding: 8px; border: none; border-radius: 5px; background: #2c3e50; color: white; resize: vertical; font-size: 12px;">Que conteúdo incrível! Estou realmente impressionado com a qualidade deste material. Parabéns pelo excelente trabalho! 👏
-
-Adorei este vídeo! As informações são muito úteis e bem explicadas. Obrigado por compartilhar conhecimento de qualidade! 😊
-
-Excelente trabalho! O conteúdo é muito bem produzido e as explicações são claras e objetivas. Continuem com o bom trabalho! 👍</textarea>
-                    <div style="color: #bdc3c7; font-size: 10px; margin-top: 5px;">💡 O sistema anti-detecção mantém o texto seguro</div>
+                    <textarea id="comenterMessages" rows="4" placeholder="Digite cada mensagem em uma linha"
+                        style="width: 100%; padding: 8px; border: none; border-radius: 5px; background: #2c3e50; color: white; resize: vertical; font-size: 12px;">Gostei muito deste conteúdo! Parabéns pelo trabalho 👏
+Excelente explicação, muito obrigado por compartilhar 😊
+Que vídeo incrível! Aprendi bastante com suas dicas 👍</textarea>
+                    <div style="color: #bdc3c7; font-size: 10px; margin-top: 5px;">💡 O bot vai "ler do caderno" e digitar como humano</div>
                 </div>
 
-                <!-- Botões de Controle -->
                 <div style="display: flex; gap: 10px; margin-bottom: 15px;">
                     <button onclick="window.startComenterBot()" style="
                         flex: 2; background: #27ae60; color: white; border: none; padding: 12px; 
@@ -143,25 +133,22 @@ Excelente trabalho! O conteúdo é muito bem produzido e as explicações são c
                     </button>
                 </div>
 
-                <!-- Status -->
                 <div id="comenterStatus" style="
                     padding: 10px; border-radius: 5px; background: #34495e; 
                     font-size: 11px; text-align: center; min-height: 20px;">
-                    🛡️ Sistema anti-apagamento ativo e pronto!
+                    👀 Bot vai "ler do caderno" e digitar como humano real
                 </div>
 
-                <!-- Rodapé -->
                 <div style="text-align: center; margin-top: 15px; padding-top: 10px; border-top: 1px solid #34495e;">
                     <p style="color: #7f8c8d; font-size: 10px; margin: 0;">
-                        F2: Ocultar/Mostrar | Texto protegido contra apagamento
+                        F2: Ocultar/Mostrar | Digitação humana autêntica
                     </p>
                 </div>
             </div>
 
-            <!-- Versão minimizada -->
             <div id="minimizedPanel" style="display: none; text-align: center; padding: 10px;">
                 <div style="color: #3498db; font-weight: bold; font-size: 14px;">COMENTER PRO</div>
-                <div style="color: #bdc3c7; font-size: 10px; margin: 5px 0;" id="minimizedStatus">Sistema ativo</div>
+                <div style="color: #bdc3c7; font-size: 10px; margin: 5px 0;" id="minimizedStatus">Lendo do caderno...</div>
                 <button onclick="window.maximizePanel()" style="
                     background: #3498db; color: white; border: none; 
                     padding: 5px 10px; border-radius: 3px; cursor: pointer; 
@@ -181,7 +168,6 @@ Excelente trabalho! O conteúdo é muito bem produzido e as explicações são c
     window.messageCount = 0;
     window.isTransparent = false;
     window.isMinimized = false;
-    window.lastTypedText = '';
 
     // ========== FUNÇÃO DE ARRASTAR ==========
     function makeDraggable(element) {
@@ -213,7 +199,6 @@ Excelente trabalho! O conteúdo é muito bem produzido e as explicações são c
             const newTop = (element.offsetTop - pos2);
             const newLeft = (element.offsetLeft - pos1);
             
-            // Limitar à área da tela
             if (newTop >= 0 && newTop <= window.innerHeight - 100) {
                 element.style.top = newTop + "px";
             }
@@ -239,12 +224,10 @@ Excelente trabalho! O conteúdo é muito bem produzido e as explicações são c
             panel.style.opacity = '0.3';
             panel.style.background = 'rgba(44, 62, 80, 0.7)';
             btn.style.background = '#27ae60';
-            btn.title = 'Restaurar Opacidade (Ctrl+Q)';
         } else {
             panel.style.opacity = '1';
             panel.style.background = '#2c3e50';
             btn.style.background = '#f39c12';
-            btn.title = 'Toggle Transparência (Ctrl+Q)';
         }
     };
 
@@ -257,11 +240,9 @@ Excelente trabalho! O conteúdo é muito bem produzido e as explicações são c
         content.style.display = 'none';
         minimized.style.display = 'block';
         btn.innerHTML = '□';
-        btn.title = 'Maximizar (Ctrl+W)';
         btn.style.background = '#27ae60';
         
         document.getElementById('comenterProPanel').style.width = '200px';
-        document.getElementById('comenterProPanel').style.height = 'auto';
     };
 
     window.maximizePanel = function() {
@@ -273,7 +254,6 @@ Excelente trabalho! O conteúdo é muito bem produzido e as explicações são c
         content.style.display = 'block';
         minimized.style.display = 'none';
         btn.innerHTML = '_';
-        btn.title = 'Minimizar (Ctrl+W)';
         btn.style.background = '#3498db';
         
         document.getElementById('comenterProPanel').style.width = '450px';
@@ -306,7 +286,7 @@ Excelente trabalho! O conteúdo é muito bem produzido e as explicações são c
         }
     };
 
-    // ========== SISTEMA PRINCIPAL - TEXTO PROTEGIDO ==========
+    // ========== DIGITAÇÃO HUMANA REAL ==========
     window.startComenterBot = async function() {
         if (window.comenterRunning) {
             updateStatus('⚠️ Bot já está rodando!', '#f39c12');
@@ -315,8 +295,8 @@ Excelente trabalho! O conteúdo é muito bem produzido e as explicações são c
 
         const interval = parseInt(document.getElementById('comenterInterval').value) * 1000;
         const messages = document.getElementById('comenterMessages').value.split('\n').filter(m => m.trim());
-        const protectionLevel = document.getElementById('protectionLevel').value;
-        const typingStrategy = document.getElementById('typingStrategy').value;
+        const humanType = document.getElementById('humanType').value;
+        const notebookSize = document.getElementById('notebookSize').value;
 
         if (messages.length === 0) {
             updateStatus('❌ Digite pelo menos uma mensagem!', '#e74c3c');
@@ -327,7 +307,7 @@ Excelente trabalho! O conteúdo é muito bem produzido e as explicações são c
         window.messageCount = 0;
 
         updateStatus(`🚀 Bot iniciado! ${messages.length} mensagens`, '#27ae60');
-        updateStatus('🛡️ Sistema anti-apagamento ativo...', '#3498db');
+        updateStatus('📖 Lendo do "caderno"...', '#3498db');
 
         let messageIndex = 0;
 
@@ -335,9 +315,8 @@ Excelente trabalho! O conteúdo é muito bem produzido e as explicações são c
             if (!window.comenterRunning) return;
 
             const message = messages[messageIndex % messages.length];
-            updateStatus(`📝 Preparando comentário...`, '#3498db');
             
-            const success = await protectedComment(message, protectionLevel, typingStrategy);
+            const success = await humanLikeTyping(message, humanType, notebookSize);
 
             if (success) {
                 window.messageCount++;
@@ -349,8 +328,6 @@ Excelente trabalho! O conteúdo é muito bem produzido e as explicações são c
                         minimizedText.textContent = `${window.messageCount} enviados`;
                     }
                 }
-            } else {
-                updateStatus('❌ Falha no envio', '#e74c3c');
             }
 
             messageIndex++;
@@ -373,35 +350,53 @@ Excelente trabalho! O conteúdo é muito bem produzido e as explicações são c
         }
     };
 
-    // ========== SISTEMA DE COMENTÁRIO PROTEGIDO ==========
-    async function protectedComment(message, protectionLevel, strategy) {
+    // ========== COMPORTAMENTO HUMANO REAL ==========
+    async function humanLikeTyping(fullMessage, humanType, notebookSize) {
         try {
-            // 1. ENCONTRAR CAMPO
-            updateStatus('🔍 Localizando campo...', '#3498db');
+            // 1. Encontrar campo
             const field = await findCommentField();
             if (!field) {
-                updateStatus('❌ Campo não encontrado', '#e74c3c');
+                updateStatus('❌ Campo não encontrado!', '#e74c3c');
                 return false;
             }
 
-            // 2. PREPARAÇÃO SEGURA
-            await safeFieldPreparation(field);
+            // 2. Preparar campo como humano
+            await humanFieldPreparation(field);
             if (!window.comenterRunning) return false;
 
-            // 3. DIGITAÇÃO PROTEGIDA
-            updateStatus('⌨️ Digitando com proteção...', '#3498db');
-            const typed = await protectedTyping(field, message, strategy);
-            if (!typed || !window.comenterRunning) {
-                return false;
+            // 3. "LER DO CADERNO" E DIGITAR
+            updateStatus('👀 Lendo do "caderno"...', '#3498db');
+            await delay(1000 + Math.random() * 1000); // Tempo lendo
+
+            const chunks = getNotebookChunks(fullMessage, notebookSize);
+            let currentText = '';
+
+            for (let chunkIndex = 0; chunkIndex < chunks.length; chunkIndex++) {
+                if (!window.comenterRunning) return false;
+
+                const chunk = chunks[chunkIndex];
+                updateStatus(`📝 Lendo: "${chunk}"`, '#3498db');
+                
+                // Tempo "lendo" o pedaço do caderno
+                await delay(500 + Math.random() * 700);
+
+                // Digitar o chunk com erros humanos
+                const typedChunk = await typeWithHumanErrors(chunk, humanType, field, currentText);
+                currentText += typedChunk;
+
+                // Olhar para o "caderno" de novo
+                if (chunkIndex < chunks.length - 1) {
+                    updateStatus('👀 Voltando a ler...', '#3498db');
+                    await delay(300 + Math.random() * 500);
+                }
             }
 
-            // 4. ENVIO SEGURO
-            updateStatus('📤 Enviando comentário...', '#3498db');
-            const sent = await safeSend(field);
+            // 4. Enviar
+            updateStatus('📤 Enviando...', '#3498db');
+            const sent = await humanSend(field);
             
             if (sent) {
                 updateStatus('✅ Comentário enviado!', '#27ae60');
-                await delay(2000);
                 return true;
             }
             
@@ -409,75 +404,157 @@ Excelente trabalho! O conteúdo é muito bem produzido e as explicações são c
             
         } catch (error) {
             console.error('Erro:', error);
-            updateStatus('❌ Erro inesperado', '#e74c3c');
             return false;
         }
     }
 
-    async function protectedTyping(field, message, strategy) {
-        window.lastTypedText = '';
+    function getNotebookChunks(text, size) {
+        // Divide o texto em "pedaços do caderno"
+        const words = text.split(' ');
+        let chunkSize;
         
-        // REMOVIDA VERIFICAÇÃO DE TAMANHO - ACEITA QUALQUER TAMANHO
-        const characters = message.split('');
-        let typedSuccessfully = 0;
-        
-        for (let i = 0; i < characters.length; i++) {
-            if (!window.comenterRunning) return false;
-            
-            const char = characters[i];
-            const currentText = getFieldText(field) + char;
-            
-            // Atualizar campo
-            setFieldText(field, currentText);
-            window.lastTypedText += char;
-            
-            // Sistema de proteção - verifica se o texto permanece
-            if (i % 10 === 0) { // Verifica a cada 10 caracteres
-                const actualText = getFieldText(field);
-                if (!actualText.includes(char)) {
-                    // Texto foi apagado - recuperar
-                    updateStatus('🛡️ Recuperando texto...', '#f39c12');
-                    setFieldText(field, window.lastTypedText);
-                    await delay(100);
-                }
-            }
-            
-            // Delay humano
-            await delay(60 + Math.random() * 60);
-            typedSuccessfully++;
-            
-            // Atualizar progresso para textos longos
-            if (characters.length > 50 && i % 20 === 0) {
-                const progress = Math.round((i / characters.length) * 100);
-                updateStatus(`⌨️ Digitando... ${progress}%`, '#3498db');
-            }
+        switch(size) {
+            case 'small': chunkSize = 2; break;
+            case 'medium': chunkSize = 4; break;
+            case 'large': chunkSize = 6; break;
+            default: chunkSize = 4;
+        }
+
+        const chunks = [];
+        for (let i = 0; i < words.length; i += chunkSize) {
+            const chunk = words.slice(i, i + chunkSize).join(' ');
+            chunks.push(chunk);
         }
         
-        return typedSuccessfully >= characters.length * 0.9; // 90% de sucesso
+        return chunks;
     }
 
-    async function safeFieldPreparation(field) {
-        // Preparação segura do campo
-        field.focus();
-        await delay(800);
+    async function typeWithHumanErrors(chunk, humanType, field, currentText) {
+        const words = chunk.split(' ');
+        let typedResult = '';
+        let errorStats = getErrorStats(humanType);
+
+        for (let wordIndex = 0; wordIndex < words.length; wordIndex++) {
+            if (!window.comenterRunning) return typedResult;
+
+            const word = words[wordIndex];
+            let typedWord = '';
+
+            // Digitar palavra com possíveis erros
+            for (let i = 0; i < word.length; i++) {
+                if (!window.comenterRunning) return typedResult;
+
+                let char = word[i];
+                
+                // Chance de erro de digitação
+                if (Math.random() < errorStats.mistakeChance) {
+                    char = getTypo(char);
+                    updateStatus('⌨️ Corrigindo erro...', '#f39c12');
+                    
+                    // Digitar caractere errado
+                    currentText += char;
+                    setFieldText(field, currentText);
+                    await delay(80 + Math.random() * 50);
+                    
+                    // Corrigir o erro (como humano faria)
+                    await delay(200 + Math.random() * 200);
+                    currentText = currentText.slice(0, -1); // Backspace
+                    setFieldText(field, currentText);
+                    await delay(100 + Math.random() * 50);
+                    
+                    // Digitar caractere correto
+                    char = word[i];
+                }
+
+                currentText += char;
+                typedWord += char;
+                setFieldText(field, currentText);
+                
+                // Delay entre letras (humano)
+                await delay(60 + Math.random() * 40);
+            }
+
+            typedResult += (wordIndex === 0 ? '' : ' ') + typedWord;
+
+            // Espaço entre palavras
+            if (wordIndex < words.length - 1) {
+                currentText += ' ';
+                setFieldText(field, currentText);
+                await delay(100 + Math.random() * 50);
+            }
+
+            // Pausa entre palavras (olhando para teclado/tela)
+            if (Math.random() < 0.3) {
+                await delay(200 + Math.random() * 300);
+            }
+        }
+
+        return typedResult;
+    }
+
+    function getErrorStats(humanType) {
+        switch(humanType) {
+            case 'beginner': 
+                return { mistakeChance: 0.08, correctionDelay: 300 };
+            case 'normal': 
+                return { mistakeChance: 0.04, correctionDelay: 200 };
+            case 'expert': 
+                return { mistakeChance: 0.02, correctionDelay: 150 };
+            default: 
+                return { mistakeChance: 0.04, correctionDelay: 200 };
+        }
+    }
+
+    function getTypo(correctChar) {
+        // Gera erros de digitação realistas
+        const keyboard = {
+            'a': ['q', 's', 'z', 'w'],
+            'e': ['w', 'r', 'd', 's'],
+            'i': ['u', 'o', 'k', 'j'],
+            'o': ['i', 'p', 'l', 'k'],
+            's': ['a', 'd', 'w', 'x'],
+            'd': ['s', 'f', 'e', 'c'],
+            'f': ['d', 'g', 'r', 'v'],
+            'g': ['f', 'h', 't', 'b'],
+            'h': ['g', 'j', 'y', 'n'],
+            'j': ['h', 'k', 'u', 'm'],
+            'k': ['j', 'l', 'i', ','],
+            'l': ['k', 'ç', 'o', '.'],
+        };
+
+        if (keyboard[correctChar]) {
+            return keyboard[correctChar][Math.floor(Math.random() * keyboard[correctChar].length)];
+        }
+        return correctChar; // Se não encontrar, mantém o caractere
+    }
+
+    async function humanFieldPreparation(field) {
+        // Comportamento humano ao preparar campo
+        updateStatus('👆 Clicando no campo...', '#3498db');
         
-        // Limpar campo apenas se necessário
+        // Clicar de forma humana (não precisa ser exato)
+        field.click();
+        await delay(600 + Math.random() * 400);
+        
+        // Focar no campo
+        field.focus();
+        await delay(400 + Math.random() * 300);
+        
+        // Limpar campo se necessário (como humano faria)
         const currentText = getFieldText(field);
         if (currentText && currentText.length > 0) {
-            if (field.tagName === 'TEXTAREA' || field.tagName === 'INPUT') {
-                field.value = '';
-            } else {
-                field.textContent = '';
+            updateStatus('⌫ Limpando campo...', '#3498db');
+            // Simular humano pressionando Backspace
+            for (let i = 0; i < currentText.length; i++) {
+                if (!window.comenterRunning) return;
+                await delay(40 + Math.random() * 30);
             }
-            await delay(500);
+            setFieldText(field, '');
+            await delay(300 + Math.random() * 200);
         }
-        
-        // Focar novamente
-        field.focus();
-        await delay(300);
     }
 
-    async function safeSend(field) {
+    async function humanSend(field) {
         // Tentar botão de enviar
         const buttonSent = await findAndClickSendButton();
         if (buttonSent) return true;
@@ -503,8 +580,7 @@ Excelente trabalho! O conteúdo é muito bem produzido e as explicações são c
                 '.comment-input',
                 '.comment-field',
                 '[data-testid="tweetTextarea"]',
-                '#comment',
-                '.ytd-comment-simplebox-renderer #contenteditable-root'
+                '#comment'
             ];
 
             for (const selector of selectors) {
@@ -529,9 +605,7 @@ Excelente trabalho! O conteúdo é muito bem produzido e as explicações são c
             'button:contains("Post")',
             'button:contains("Send")',
             '[data-testid="tweetButton"]',
-            '[role="button"]:contains("Tweet")',
-            '.ytd-comment-simplebox-renderer #submit-button',
-            'input[type="submit"]'
+            '[role="button"]:contains("Tweet")'
         ];
 
         for (const selector of buttonSelectors) {
@@ -539,7 +613,7 @@ Excelente trabalho! O conteúdo é muito bem produzido e as explicações são c
                 const buttons = document.querySelectorAll(selector);
                 for (const button of buttons) {
                     if (isVisible(button) && !button.disabled) {
-                        await delay(300);
+                        await delay(300 + Math.random() * 200);
                         button.click();
                         await delay(1500);
                         return true;
@@ -554,7 +628,7 @@ Excelente trabalho! O conteúdo é muito bem produzido e as explicações são c
 
     async function pressEnter(field) {
         try {
-            await delay(500);
+            await delay(500 + Math.random() * 300);
             
             const enterEvent = new KeyboardEvent('keydown', {
                 key: 'Enter',
@@ -579,7 +653,6 @@ Excelente trabalho! O conteúdo é muito bem produzido e as explicações são c
             field.textContent = text;
         }
         
-        // Disparar evento de input
         const inputEvent = new Event('input', { bubbles: true });
         field.dispatchEvent(inputEvent);
     }
@@ -617,23 +690,7 @@ Excelente trabalho! O conteúdo é muito bem produzido e as explicações são c
 
     // ========== EVENT LISTENERS ==========
     document.addEventListener('keydown', function(e) {
-        if (e.ctrlKey && e.key === 'q') {
-            e.preventDefault();
-            window.toggleTransparency();
-        }
-        else if (e.ctrlKey && e.key === 'w') {
-            e.preventDefault();
-            if (window.isMinimized) {
-                window.maximizePanel();
-            } else {
-                window.minimizePanel();
-            }
-        }
-        else if (e.ctrlKey && e.key === 'e') {
-            e.preventDefault();
-            window.closePanel();
-        }
-        else if (e.key === 'F2') {
+        if (e.key === 'F2') {
             e.preventDefault();
             window.togglePanel();
         }
@@ -652,5 +709,5 @@ Excelente trabalho! O conteúdo é muito bem produzido e as explicações são c
         document.getElementById('closeBtn').onclick = window.closePanel;
     }, 100);
 
-    console.log('🚀 COMENTER PRO - Sistema anti-apagamento ativo!');
+    console.log('🚀 COMENTER PRO - Digitação humana real ativada!');
 })();
