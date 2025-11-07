@@ -61,7 +61,7 @@
                     <div style="font-size: 20px; margin-right: 10px;">💬</div>
                     <div>
                         <div style="color: #3498db; font-weight: bold; font-size: 16px;">COMENTER PRO</div>
-                        <div style="color: #bdc3c7; font-size: 10px;">Digitação humana real</div>
+                        <div style="color: #bdc3c7; font-size: 10px;">Digitação inteligente</div>
                     </div>
                 </div>
                 <div style="display: flex; gap: 5px;">
@@ -94,27 +94,25 @@
                     
                     <div style="margin: 10px 0;">
                         <label style="display: block; margin-bottom: 5px; font-size: 12px;">⏱️ Intervalo entre comentários (segundos):</label>
-                        <input type="number" id="comenterInterval" value="10" min="5" max="60" 
+                        <input type="number" id="comenterInterval" value="15" min="10" max="60" 
                             style="width: 100%; padding: 8px; border: none; border-radius: 5px; background: #2c3e50; color: white;">
                     </div>
                     
                     <div style="margin: 10px 0;">
-                        <label style="display: block; margin-bottom: 5px; font-size: 12px;">⌨️ Velocidade de digitação:</label>
-                        <select id="typingSpeed" style="width: 100%; padding: 8px; border: none; border-radius: 5px; background: #2c3e50; color: white;">
-                            <option value="50">Muito Lenta (mais realista)</option>
-                            <option value="80" selected>Lenta (recomendado)</option>
-                            <option value="120">Normal</option>
-                            <option value="200">Rápida</option>
+                        <label style="display: block; margin-bottom: 5px; font-size: 12px;">⌨️ Estratégia de digitação:</label>
+                        <select id="typingStrategy" style="width: 100%; padding: 8px; border: none; border-radius: 5px; background: #2c3e50; color: white;">
+                            <option value="chunks">Blocos de texto (mais seguro)</option>
+                            <option value="words">Palavra por palavra</option>
+                            <option value="letters">Letra por letra</option>
                         </select>
                     </div>
 
                     <div style="margin: 10px 0;">
-                        <label style="display: block; margin-bottom: 5px; font-size: 12px;">🎯 Modo de Envio:</label>
-                        <select id="comenterMode" style="width: 100%; padding: 8px; border: none; border-radius: 5px; background: #2c3e50; color: white;">
-                            <option value="human">Digitação Humana (Recomendado)</option>
-                            <option value="auto">Auto-detect</option>
-                            <option value="enter">Tecla ENTER</option>
-                            <option value="button">Botão Enviar</option>
+                        <label style="display: block; margin-bottom: 5px; font-size: 12px;">🛡️ Modo anti-detecção:</label>
+                        <select id="antiDetection" style="width: 100%; padding: 8px; border: none; border-radius: 5px; background: #2c3e50; color: white;">
+                            <option value="high">Alta (recomendado)</option>
+                            <option value="medium">Média</option>
+                            <option value="low">Baixa</option>
                         </select>
                     </div>
                 </div>
@@ -123,10 +121,10 @@
                 <div style="background: #34495e; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
                     <h3 style="color: #3498db; margin: 0 0 10px 0; font-size: 14px;">💬 Mensagens</h3>
                     <textarea id="comenterMessages" rows="4" placeholder="Digite cada mensagem em uma linha..."
-                        style="width: 100%; padding: 8px; border: none; border-radius: 5px; background: #2c3e50; color: white; resize: vertical; font-size: 12px;">Olá, este é um comentário automático!
-Estou testando o COMENTER PRO BOT.
-Funciona muito bem! 👍</textarea>
-                    <div style="color: #bdc3c7; font-size: 10px; margin-top: 5px;">💡 Dica: Use mensagens diferentes e naturais</div>
+                        style="width: 100%; padding: 8px; border: none; border-radius: 5px; background: #2c3e50; color: white; resize: vertical; font-size: 12px;">Que conteúdo incrível! 👏
+Gostei muito deste vídeo!
+Muito obrigado por compartilhar! 😊</textarea>
+                    <div style="color: #bdc3c7; font-size: 10px; margin-top: 5px;">💡 Use mensagens curtas e naturais</div>
                 </div>
 
                 <!-- Botões de Controle -->
@@ -153,7 +151,7 @@ Funciona muito bem! 👍</textarea>
                 <!-- Rodapé -->
                 <div style="text-align: center; margin-top: 15px; padding-top: 10px; border-top: 1px solid #34495e;">
                     <p style="color: #7f8c8d; font-size: 10px; margin: 0;">
-                        F2: Ocultar/Mostrar | Digitação palavra por palavra
+                        F2: Ocultar/Mostrar | Estratégia anti-detecção ativa
                     </p>
                 </div>
             </div>
@@ -307,7 +305,7 @@ Funciona muito bem! 👍</textarea>
         }
     };
 
-    // ========== FUNÇÕES DO BOT - DIGITAÇÃO HUMANA ==========
+    // ========== FUNÇÕES DO BOT - DIGITAÇÃO INTELIGENTE ==========
     window.startComenterBot = async function() {
         if (window.comenterRunning) {
             updateStatus('⚠️ Bot já está rodando!', '#f39c12');
@@ -316,16 +314,16 @@ Funciona muito bem! 👍</textarea>
 
         const interval = parseInt(document.getElementById('comenterInterval').value) * 1000;
         const messages = document.getElementById('comenterMessages').value.split('\n').filter(m => m.trim());
-        const mode = document.getElementById('comenterMode').value;
-        const typingSpeed = parseInt(document.getElementById('typingSpeed').value);
+        const typingStrategy = document.getElementById('typingStrategy').value;
+        const antiDetection = document.getElementById('antiDetection').value;
 
         if (messages.length === 0) {
             updateStatus('❌ Digite pelo menos uma mensagem!', '#e74c3c');
             return;
         }
 
-        if (interval < 5000) {
-            updateStatus('❌ Intervalo muito curto! Use pelo menos 5 segundos.', '#e74c3c');
+        if (interval < 10000) {
+            updateStatus('❌ Intervalo muito curto! Use pelo menos 10 segundos.', '#e74c3c');
             return;
         }
 
@@ -333,7 +331,7 @@ Funciona muito bem! 👍</textarea>
         window.messageCount = 0;
 
         updateStatus(`🚀 Bot iniciado! ${messages.length} mensagens`, '#27ae60');
-        updateStatus('⌨️ Digitação humana ativada...', '#3498db');
+        updateStatus('🛡️ Modo anti-detecção ativo...', '#3498db');
 
         let messageIndex = 0;
 
@@ -341,9 +339,9 @@ Funciona muito bem! 👍</textarea>
             if (!window.comenterRunning) return;
 
             const message = messages[messageIndex % messages.length];
-            updateStatus(`📝 Digitando: "${message.substring(0, 30)}..."`, '#3498db');
+            updateStatus(`📝 Preparando comentário...`, '#3498db');
             
-            const success = await sendCommentHumanLike(message, mode, typingSpeed);
+            const success = await sendCommentSmart(message, typingStrategy, antiDetection);
 
             if (success) {
                 window.messageCount++;
@@ -381,87 +379,48 @@ Funciona muito bem! 👍</textarea>
         }
     };
 
-    // ========== DIGITAÇÃO HUMANA REAL ==========
-    async function sendCommentHumanLike(message, mode, typingSpeed) {
+    // ========== DIGITAÇÃO INTELIGENTE - SEM BUGS ==========
+    async function sendCommentSmart(message, strategy, antiDetection) {
         try {
-            // 1. Encontrar campo de comentário
-            const commentField = await findCommentField();
+            // 1. Encontrar campo de comentário de forma inteligente
+            const commentField = await findCommentFieldSmart();
             if (!commentField) {
                 updateStatus('❌ Campo de comentário não encontrado!', '#e74c3c');
                 return false;
             }
 
-            // 2. Focar e limpar campo
-            commentField.focus();
-            await delay(800 + Math.random() * 400); // Delay humano
-            
-            await clearFieldSafely(commentField);
-            await delay(500 + Math.random() * 300);
+            updateStatus('🎯 Campo encontrado, preparando...', '#3498db');
 
-            // 3. DIGITAR PALAVRA POR PALAVRA (COMPORTAMENTO HUMANO)
-            const words = message.split(' ');
-            let typedText = '';
-            
-            updateStatus(`⌨️ Digitando palavra por palavra...`, '#3498db');
-            
-            for (let i = 0; i < words.length; i++) {
-                if (!window.comenterRunning) return false;
-                
-                const word = words[i];
-                
-                // Digitar letra por letra com variação de velocidade
-                for (let j = 0; j < word.length; j++) {
-                    if (!window.comenterRunning) return false;
-                    
-                    const char = word[j];
-                    typedText += char;
-                    
-                    // Atualizar campo de texto
-                    if (commentField.tagName === 'TEXTAREA' || commentField.tagName === 'INPUT') {
-                        commentField.value = typedText;
-                    } else {
-                        commentField.textContent = typedText;
-                    }
-                    
-                    // Disparar evento de input
-                    triggerEvent(commentField, 'input');
-                    
-                    // Delay entre letras (com variação humana)
-                    const charDelay = typingSpeed + Math.random() * 50 - 25;
-                    await delay(charDelay);
-                }
-                
-                // Adicionar espaço após palavra (exceto última)
-                if (i < words.length - 1) {
-                    typedText += ' ';
-                    
-                    if (commentField.tagName === 'TEXTAREA' || commentField.tagName === 'INPUT') {
-                        commentField.value = typedText;
-                    } else {
-                        commentField.textContent = typedText;
-                    }
-                    
-                    triggerEvent(commentField, 'input');
-                    
-                    // Delay entre palavras (um pouco maior)
-                    await delay(typingSpeed * 1.5 + Math.random() * 100);
-                }
-                
-                // Pequena pausa ocasional (como um humano)
-                if (Math.random() < 0.1) { // 10% de chance de pausa
-                    await delay(800 + Math.random() * 1000);
-                }
+            // 2. Estratégia de preparação do campo
+            const prepared = await prepareField(commentField, antiDetection);
+            if (!prepared) {
+                updateStatus('❌ Não foi possível preparar o campo', '#e74c3c');
+                return false;
             }
 
-            // 4. Pequena pausa final antes de enviar
-            await delay(1000 + Math.random() * 500);
+            // 3. DIGITAÇÃO INTELIGENTE (sem bugs)
+            updateStatus('⌨️ Escrevendo comentário...', '#3498db');
+            const typed = await typeMessageSmart(commentField, message, strategy, antiDetection);
+            if (!typed) {
+                updateStatus('❌ Erro ao digitar', '#e74c3c');
+                return false;
+            }
+
+            // 4. Verificar se o texto ficou no campo
+            await delay(1000);
+            const currentText = getFieldText(commentField);
+            if (!currentText || currentText.length < message.length / 2) {
+                updateStatus('⚠️ Texto foi apagado, tentando novamente...', '#f39c12');
+                return false;
+            }
 
             // 5. Enviar comentário
-            const sent = await sendMessageImproved(commentField, mode);
+            updateStatus('📤 Enviando comentário...', '#3498db');
+            const sent = await sendMessageSmart(commentField);
             
             if (sent) {
-                // Aguardar confirmação
-                await delay(2000 + Math.random() * 1000);
+                updateStatus('✅ Comentário enviado com sucesso!', '#27ae60');
+                await delay(2000);
                 return true;
             }
             
@@ -469,77 +428,241 @@ Funciona muito bem! 👍</textarea>
             
         } catch (error) {
             console.error('Erro ao enviar comentário:', error);
+            updateStatus('❌ Erro inesperado', '#e74c3c');
             return false;
         }
     }
 
-    async function findCommentField() {
-        // Tentar elemento ativo primeiro
-        const activeElement = document.activeElement;
-        if (activeElement && isEditableElement(activeElement)) {
-            return activeElement;
-        }
+    async function findCommentFieldSmart() {
+        // Estratégia: esperar um pouco e tentar múltiplas vezes
+        for (let attempt = 0; attempt < 3; attempt++) {
+            // Tentar elemento ativo primeiro
+            const activeElement = document.activeElement;
+            if (activeElement && isEditableElement(activeElement) && isVisible(activeElement)) {
+                return activeElement;
+            }
 
-        // Procurar campos de comentário
-        const selectors = [
-            'textarea',
-            'input[type="text"]',
-            '[contenteditable="true"]',
-            '[role="textbox"]',
-            '.comment-input',
-            '.comment-field',
-            '[data-testid="tweetTextarea"]',
-            '#comment',
-            '.ytd-comment-simplebox-renderer #contenteditable-root',
-            'div[contenteditable="true"]',
-            'input[placeholder*="comment" i]',
-            'textarea[placeholder*="comment" i]'
-        ];
+            // Procurar campos de comentário com seletores específicos
+            const selectors = [
+                'textarea',
+                'input[type="text"]',
+                '[contenteditable="true"]',
+                '[role="textbox"]',
+                '.comment-input',
+                '.comment-field',
+                '[data-testid="tweetTextarea"]',
+                '#comment',
+                '.ytd-comment-simplebox-renderer #contenteditable-root',
+                'div[contenteditable="true"]',
+                'input[placeholder*="comment" i]',
+                'textarea[placeholder*="comment" i]',
+                'input[placeholder*="tweet" i]',
+                'textarea[placeholder*="tweet" i]',
+                'input[placeholder*="post" i]',
+                'textarea[placeholder*="post" i]'
+            ];
 
-        for (const selector of selectors) {
-            const elements = document.querySelectorAll(selector);
-            for (const element of elements) {
-                if (isVisible(element) && isEditableElement(element)) {
-                    return element;
+            for (const selector of selectors) {
+                const elements = document.querySelectorAll(selector);
+                for (const element of elements) {
+                    if (isVisible(element) && isEditableElement(element)) {
+                        // Verificar se está na área de comentários
+                        if (isInCommentsArea(element)) {
+                            return element;
+                        }
+                    }
                 }
             }
-        }
 
+            await delay(1000);
+        }
         return null;
     }
 
-    async function clearFieldSafely(element) {
-        if (element.tagName === 'TEXTAREA' || element.tagName === 'INPUT') {
-            element.value = '';
-        } else if (element.isContentEditable) {
-            element.textContent = '';
-            if (element.innerHTML) {
-                element.innerHTML = '';
+    async function prepareField(field, antiDetection) {
+        try {
+            // Clicar suavemente no campo
+            field.click();
+            await delay(800 + Math.random() * 400);
+
+            // Focar no campo
+            field.focus();
+            await delay(600 + Math.random() * 300);
+
+            // Limpar campo de forma segura
+            await clearFieldSafe(field);
+            await delay(500 + Math.random() * 200);
+
+            // Verificar se o campo está pronto
+            const isReady = await isFieldReady(field);
+            if (!isReady) {
+                return false;
+            }
+
+            return true;
+        } catch (error) {
+            return false;
+        }
+    }
+
+    async function clearFieldSafe(field) {
+        // Método mais seguro para limpar - não dispara muitos eventos
+        if (field.tagName === 'TEXTAREA' || field.tagName === 'INPUT') {
+            field.value = '';
+        } else if (field.isContentEditable) {
+            field.textContent = '';
+        }
+        
+        // Apenas um evento de input
+        setTimeout(() => {
+            const inputEvent = new Event('input', { bubbles: true });
+            field.dispatchEvent(inputEvent);
+        }, 100);
+        
+        await delay(300);
+    }
+
+    async function isFieldReady(field) {
+        // Verificar se o campo está realmente pronto para receber texto
+        const text = getFieldText(field);
+        return text === '' || text.length === 0;
+    }
+
+    async function typeMessageSmart(field, message, strategy, antiDetection) {
+        try {
+            // ESTRATÉGIA 1: Blocos de texto (mais seguro)
+            if (strategy === 'chunks') {
+                return await typeInChunks(field, message, antiDetection);
+            }
+            // ESTRATÉGIA 2: Palavra por palavra
+            else if (strategy === 'words') {
+                return await typeWordByWord(field, message, antiDetection);
+            }
+            // ESTRATÉGIA 3: Letra por letra
+            else {
+                return await typeLetterByLetter(field, message, antiDetection);
+            }
+        } catch (error) {
+            return false;
+        }
+    }
+
+    async function typeInChunks(field, message, antiDetection) {
+        // Dividir a mensagem em chunks menores
+        const chunks = splitIntoChunks(message);
+        let currentText = '';
+        
+        for (const chunk of chunks) {
+            if (!window.comenterRunning) return false;
+            
+            currentText += chunk;
+            setFieldText(field, currentText);
+            
+            // Delay entre chunks (baseado no modo anti-detecção)
+            const chunkDelay = getTypingDelay(antiDetection) * 3;
+            await delay(chunkDelay + Math.random() * 200);
+            
+            // Verificar se o texto ainda está lá
+            const actualText = getFieldText(field);
+            if (actualText !== currentText) {
+                // Texto foi modificado, tentar recuperar
+                setFieldText(field, currentText);
+                await delay(500);
             }
         }
         
-        // Disparar eventos para notificar a aplicação
-        triggerEvent(element, 'input');
-        triggerEvent(element, 'change');
+        return true;
     }
 
-    async function sendMessageImproved(element, mode) {
-        let sent = false;
-
-        // Tentar botão enviar primeiro (mais confiável)
-        if (mode === 'button' || mode === 'auto' || mode === 'human') {
-            sent = await findAndClickSendButton();
+    async function typeWordByWord(field, message, antiDetection) {
+        const words = message.split(' ');
+        let currentText = '';
+        
+        for (let i = 0; i < words.length; i++) {
+            if (!window.comenterRunning) return false;
+            
+            const word = words[i];
+            currentText += (i === 0 ? '' : ' ') + word;
+            setFieldText(field, currentText);
+            
+            // Delay entre palavras
+            const wordDelay = getTypingDelay(antiDetection) * 2;
+            await delay(wordDelay + Math.random() * 150);
         }
+        
+        return true;
+    }
 
+    async function typeLetterByLetter(field, message, antiDetection) {
+        let currentText = '';
+        
+        for (let i = 0; i < message.length; i++) {
+            if (!window.comenterRunning) return false;
+            
+            currentText += message[i];
+            setFieldText(field, currentText);
+            
+            // Delay entre letras
+            const letterDelay = getTypingDelay(antiDetection);
+            await delay(letterDelay + Math.random() * 50);
+        }
+        
+        return true;
+    }
+
+    function splitIntoChunks(text) {
+        // Dividir texto em chunks de 2-4 palavras
+        const words = text.split(' ');
+        const chunks = [];
+        
+        for (let i = 0; i < words.length; i += 2 + Math.floor(Math.random() * 2)) {
+            const chunk = words.slice(i, i + 2 + Math.floor(Math.random() * 2)).join(' ');
+            if (chunk) chunks.push(chunk + (i + 2 + Math.floor(Math.random() * 2) < words.length ? ' ' : ''));
+        }
+        
+        return chunks;
+    }
+
+    function getTypingDelay(antiDetection) {
+        switch(antiDetection) {
+            case 'high': return 150 + Math.random() * 100; // 150-250ms
+            case 'medium': return 100 + Math.random() * 50; // 100-150ms
+            case 'low': return 50 + Math.random() * 30; // 50-80ms
+            default: return 120 + Math.random() * 80;
+        }
+    }
+
+    function setFieldText(field, text) {
+        if (field.tagName === 'TEXTAREA' || field.tagName === 'INPUT') {
+            field.value = text;
+        } else {
+            field.textContent = text;
+        }
+        
+        // Disparar eventos de forma controlada
+        const inputEvent = new Event('input', { bubbles: true });
+        field.dispatchEvent(inputEvent);
+    }
+
+    function getFieldText(field) {
+        if (field.tagName === 'TEXTAREA' || field.tagName === 'INPUT') {
+            return field.value;
+        } else {
+            return field.textContent || field.innerText;
+        }
+    }
+
+    async function sendMessageSmart(field) {
+        // Tentar botão enviar primeiro
+        const buttonSent = await findAndClickSendButtonSmart();
+        if (buttonSent) return true;
+        
         // Tentar tecla Enter
-        if (!sent && (mode === 'enter' || mode === 'auto' || mode === 'human')) {
-            sent = await pressEnterKey(element);
-        }
-
-        return sent;
+        const enterSent = await pressEnterSmart(field);
+        return enterSent;
     }
 
-    async function findAndClickSendButton() {
+    async function findAndClickSendButtonSmart() {
         const buttonSelectors = [
             'button[type="submit"]',
             'button:contains("Enviar")',
@@ -551,33 +674,16 @@ Funciona muito bem! 👍</textarea>
             '[data-testid="tweetButton"]',
             '[role="button"]:contains("Tweet")',
             '.ytd-comment-simplebox-renderer #submit-button',
-            'input[type="submit"]',
-            'button[aria-label*="comment" i]',
-            'button[aria-label*="tweet" i]',
-            'button[aria-label*="post" i]'
+            'input[type="submit"]'
         ];
 
         for (const selector of buttonSelectors) {
             try {
-                // Tentar seletor CSS normal
                 const buttons = document.querySelectorAll(selector);
                 for (const button of buttons) {
                     if (isVisible(button) && !button.disabled) {
                         button.click();
-                        await delay(500);
-                        return true;
-                    }
-                }
-
-                // Tentar por texto
-                const allButtons = document.querySelectorAll('button, input[type="submit"], [role="button"]');
-                for (const button of allButtons) {
-                    const text = (button.textContent || button.value || '').toLowerCase();
-                    if ((text.includes('enviar') || text.includes('comment') || text.includes('post') || 
-                         text.includes('tweet') || text.includes('send')) && 
-                        isVisible(button) && !button.disabled) {
-                        button.click();
-                        await delay(500);
+                        await delay(1000);
                         return true;
                     }
                 }
@@ -588,22 +694,9 @@ Funciona muito bem! 👍</textarea>
         return false;
     }
 
-    async function pressEnterKey(element) {
+    async function pressEnterSmart(field) {
         try {
-            // Simular pressionar Enter
             const enterEvent = new KeyboardEvent('keydown', {
-                key: 'Enter',
-                code: 'Enter',
-                keyCode: 13,
-                which: 13,
-                bubbles: true,
-                cancelable: true
-            });
-            
-            element.dispatchEvent(enterEvent);
-            
-            // Também tentar keyup
-            const enterUpEvent = new KeyboardEvent('keyup', {
                 key: 'Enter',
                 code: 'Enter',
                 keyCode: 13,
@@ -611,9 +704,7 @@ Funciona muito bem! 👍</textarea>
                 bubbles: true
             });
             
-            element.dispatchEvent(enterUpEvent);
-            
-            return true;
+            return field.dispatchEvent(enterEvent);
         } catch (error) {
             return false;
         }
@@ -634,13 +725,10 @@ Funciona muito bem! 👍</textarea>
                element.style.display !== 'none';
     }
 
-    function triggerEvent(element, eventName) {
-        try {
-            const event = new Event(eventName, { bubbles: true, cancelable: true });
-            element.dispatchEvent(event);
-        } catch (error) {
-            // Ignorar erros de evento
-        }
+    function isInCommentsArea(element) {
+        // Verificar se o elemento está provavelmente na área de comentários
+        const container = element.closest('[id*="comment"], [class*="comment"], [data-testid*="comment"]');
+        return container !== null;
     }
 
     function delay(ms) {
@@ -698,5 +786,5 @@ Funciona muito bem! 👍</textarea>
     }, 100);
 
     console.log('🚀 COMENTER PRO carregado com sucesso!');
-    console.log('🎯 Digitação humana ativada - palavra por palavra');
+    console.log('🎯 Digitação inteligente ativada - sem bugs');
 })();
