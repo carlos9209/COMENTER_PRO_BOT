@@ -18,7 +18,7 @@
     }
     window.comenterProLoaded = true;
 
-    // Criar overlay
+    // Criar overlay - AGORA SEM FECHAR AO CLICAR
     const overlay = document.createElement('div');
     overlay.style.cssText = `
         position: fixed;
@@ -31,6 +31,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        pointer-events: none; /* ISSO IMPEDE DE FECHAR AO CLICAR */
     `;
 
     // Criar interface do bot - ARRASTÁVEL
@@ -52,6 +53,7 @@
             left: 50px;
             cursor: move;
             z-index: 10000;
+            pointer-events: auto; /* PERMITE INTERAÇÃO APENAS NO PANEL */
         ">
             <!-- Cabeçalho com botões de controle -->
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #34495e;">
@@ -139,7 +141,7 @@ Terceiro comentário</textarea>
                 <!-- Rodapé -->
                 <div style="text-align: center; margin-top: 15px; padding-top: 10px; border-top: 1px solid #34495e;">
                     <p style="color: #7f8c8d; font-size: 10px; margin: 0;">
-                        Ctrl+Q: Transparência | Ctrl+W: Minimizar | Ctrl+E: Fechar
+                        F2: Ocultar/Mostrar | Ctrl+Q: Transparência | Ctrl+W: Minimizar | Ctrl+E: Fechar
                     </p>
                 </div>
             </div>
@@ -487,12 +489,7 @@ Terceiro comentário</textarea>
         }
     });
 
-    // Fechar clicando no overlay (mas não no panel)
-    overlay.addEventListener('click', function(e) {
-        if (e.target === overlay) {
-            window.closePanel();
-        }
-    });
+    // REMOVI O EVENT LISTENER QUE FECHAVA AO CLICAR NO OVERLAY
 
     // Configurar botões e funcionalidades
     setTimeout(() => {
