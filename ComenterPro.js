@@ -6,7 +6,7 @@
         // Se já está carregado, apenas mostra/oculta
         const panel = document.getElementById('comenterProPanel');
         if (panel) {
-            if (panel.style.display === 'none') {
+            if (panel.style.display === 'none' || panel.parentElement.style.display === 'none') {
                 panel.style.display = 'block';
                 panel.parentElement.style.display = 'flex';
             } else {
@@ -33,7 +33,7 @@
         align-items: center;
     `;
 
-    // Criar interface do bot - AGORA ARRASTÁVEL
+    // Criar interface do bot - ARRASTÁVEL
     const botUI = document.createElement('div');
     botUI.innerHTML = `
         <div id="comenterProPanel" style="
@@ -47,8 +47,11 @@
             border: 2px solid #3498db;
             max-height: 80vh;
             overflow-y: auto;
-            position: relative;
+            position: fixed;
+            top: 50px;
+            left: 50px;
             cursor: move;
+            z-index: 10000;
         ">
             <!-- Cabeçalho com botões de controle -->
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #34495e;">
@@ -60,19 +63,19 @@
                     </div>
                 </div>
                 <div style="display: flex; gap: 5px;">
-                    <button id="transparentBtn" title="Toggle Transparência" style="
+                    <button id="transparentBtn" title="Toggle Transparência (Ctrl+Q)" style="
                         background: #f39c12; color: white; border: none; 
                         width: 30px; height: 30px; border-radius: 50%; 
                         cursor: pointer; font-size: 12px;">
                         👁️
                     </button>
-                    <button id="minimizeBtn" title="Minimizar" style="
+                    <button id="minimizeBtn" title="Minimizar (Ctrl+W)" style="
                         background: #3498db; color: white; border: none; 
                         width: 30px; height: 30px; border-radius: 50%; 
                         cursor: pointer; font-size: 12px;">
                         _
                     </button>
-                    <button id="closeBtn" title="Fechar" style="
+                    <button id="closeBtn" title="Fechar (Ctrl+E)" style="
                         background: #e74c3c; color: white; border: none; 
                         width: 30px; height: 30px; border-radius: 50%; 
                         cursor: pointer; font-size: 12px;">
@@ -136,15 +139,15 @@ Terceiro comentário</textarea>
                 <!-- Rodapé -->
                 <div style="text-align: center; margin-top: 15px; padding-top: 10px; border-top: 1px solid #34495e;">
                     <p style="color: #7f8c8d; font-size: 10px; margin: 0;">
-                        F2: Ocultar | ESC: Fechar | Arraste para mover
+                        Ctrl+Q: Transparência | Ctrl+W: Minimizar | Ctrl+E: Fechar
                     </p>
                 </div>
             </div>
 
             <!-- Versão minimizada -->
             <div id="minimizedPanel" style="display: none; text-align: center; padding: 10px;">
-                <div style="color: #3498db; font-weight: bold;">COMENTER PRO</div>
-                <div style="color: #bdc3c7; font-size: 10px;">Bot está rodando...</div>
+                <div style="color: #3498db; font-weight: bold; font-size: 14px;">COMENTER PRO</div>
+                <div style="color: #bdc3c7; font-size: 10px; margin: 5px 0;" id="minimizedStatus">Bot parado</div>
                 <button onclick="window.maximizePanel()" style="
                     background: #3498db; color: white; border: none; 
                     padding: 5px 10px; border-radius: 3px; cursor: pointer; 
@@ -202,9 +205,6 @@ Terceiro comentário</textarea>
             if (newLeft >= 0 && newLeft <= window.innerWidth - 400) {
                 element.style.left = newLeft + "px";
             }
-            
-            element.style.position = 'fixed';
-            element.style.margin = '0';
         }
 
         function closeDragElement() {
@@ -224,12 +224,12 @@ Terceiro comentário</textarea>
             panel.style.opacity = '0.3';
             panel.style.background = 'rgba(44, 62, 80, 0.7)';
             btn.style.background = '#27ae60';
-            btn.title = 'Restaurar Opacidade';
+            btn.title = 'Restaurar Opacidade (Ctrl+Q)';
         } else {
             panel.style.opacity = '1';
             panel.style.background = '#2c3e50';
             btn.style.background = '#f39c12';
-            btn.title = 'Toggle Transparência';
+            btn.title = 'Toggle Transparência (Ctrl+Q)';
         }
     };
 
@@ -242,11 +242,12 @@ Terceiro comentário</textarea>
         content.style.display = 'none';
         minimized.style.display = 'block';
         btn.innerHTML = '□';
-        btn.title = 'Maximizar';
+        btn.title = 'Maximizar (Ctrl+W)';
         btn.style.background = '#27ae60';
         
         // Reduzir tamanho quando minimizado
         document.getElementById('comenterProPanel').style.width = '200px';
+        document.getElementById('comenterProPanel').style.height = 'auto';
     };
 
     window.maximizePanel = function() {
@@ -258,7 +259,7 @@ Terceiro comentário</textarea>
         content.style.display = 'block';
         minimized.style.display = 'none';
         btn.innerHTML = '_';
-        btn.title = 'Minimizar';
+        btn.title = 'Minimizar (Ctrl+W)';
         btn.style.background = '#3498db';
         
         // Restaurar tamanho original
@@ -274,13 +275,22 @@ Terceiro comentário</textarea>
     window.hidePanel = function() {
         const panel = document.getElementById('comenterProPanel');
         panel.style.display = 'none';
-        panel.parentElement.style.display = 'none';
+        overlay.style.display = 'none';
     };
 
     window.showPanel = function() {
         const panel = document.getElementById('comenterProPanel');
         panel.style.display = 'block';
-        panel.parentElement.style.display = 'flex';
+        overlay.style.display = 'flex';
+    };
+
+    window.togglePanel = function() {
+        const panel = document.getElementById('comenterProPanel');
+        if (panel.style.display === 'none' || overlay.style.display === 'none') {
+            window.showPanel();
+        } else {
+            window.hidePanel();
+        }
     };
 
     // ========== FUNÇÕES DO BOT ==========
@@ -320,7 +330,7 @@ Terceiro comentário</textarea>
                     
                     // Atualizar painel minimizado
                     if (window.isMinimized) {
-                        const minimizedText = document.querySelector('#minimizedPanel div:last-child');
+                        const minimizedText = document.getElementById('minimizedStatus');
                         if (minimizedText) {
                             minimizedText.textContent = `${window.messageCount} msgs enviadas`;
                         }
@@ -341,6 +351,14 @@ Terceiro comentário</textarea>
             window.comenterIntervalId = null;
         }
         updateStatus(`⏹️ Bot parado! ${window.messageCount} mensagens enviadas`, '#e74c3c');
+        
+        // Atualizar painel minimizado
+        if (window.isMinimized) {
+            const minimizedText = document.getElementById('minimizedStatus');
+            if (minimizedText) {
+                minimizedText.textContent = `Parado - ${window.messageCount} msgs`;
+            }
+        }
     };
 
     // ========== FUNÇÕES AUXILIARES ==========
@@ -439,14 +457,33 @@ Terceiro comentário</textarea>
 
     // ========== EVENT LISTENERS ==========
     document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') {
+        // Ctrl+Q - Transparência
+        if (e.ctrlKey && e.key === 'q') {
+            e.preventDefault();
+            window.toggleTransparency();
+        }
+        // Ctrl+W - Minimizar/Maximizar
+        else if (e.ctrlKey && e.key === 'w') {
+            e.preventDefault();
+            if (window.isMinimized) {
+                window.maximizePanel();
+            } else {
+                window.minimizePanel();
+            }
+        }
+        // Ctrl+E - Fechar
+        else if (e.ctrlKey && e.key === 'e') {
+            e.preventDefault();
             window.closePanel();
         }
-        if (e.key === 'F2') {
-            window.hidePanel();
+        // F2 - Mostrar/Ocultar
+        else if (e.key === 'F2') {
+            e.preventDefault();
+            window.togglePanel();
         }
-        if (e.key === 'F3' && window.comenterProLoaded) {
-            window.showPanel();
+        // ESC - Fechar
+        else if (e.key === 'Escape') {
+            window.closePanel();
         }
     });
 
@@ -457,7 +494,7 @@ Terceiro comentário</textarea>
         }
     });
 
-    // Configurar botões
+    // Configurar botões e funcionalidades
     setTimeout(() => {
         const panel = document.getElementById('comenterProPanel');
         makeDraggable(panel);
@@ -468,5 +505,5 @@ Terceiro comentário</textarea>
     }, 100);
 
     console.log('🚀 COMENTER PRO carregado com sucesso!');
-    console.log('🎯 Controles: F2 (Ocultar) | F3 (Mostrar) | ESC (Fechar) | Arraste para mover');
+    console.log('🎯 Controles: F2 (Mostrar/Ocultar) | Ctrl+Q (Transparência) | Ctrl+W (Minimizar) | Ctrl+E (Fechar)');
 })();
