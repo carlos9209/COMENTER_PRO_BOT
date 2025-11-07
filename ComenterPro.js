@@ -18,7 +18,7 @@
     }
     window.comenterProLoaded = true;
 
-    // Criar overlay - AGORA SEM FECHAR AO CLICAR
+    // Criar overlay - SEM FECHAR AO CLICAR
     const overlay = document.createElement('div');
     overlay.style.cssText = `
         position: fixed;
@@ -31,7 +31,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        pointer-events: none; /* ISSO IMPEDE DE FECHAR AO CLICAR */
+        pointer-events: none;
     `;
 
     // Criar interface do bot - ARRASTÁVEL
@@ -53,7 +53,7 @@
             left: 50px;
             cursor: move;
             z-index: 10000;
-            pointer-events: auto; /* PERMITE INTERAÇÃO APENAS NO PANEL */
+            pointer-events: auto;
         ">
             <!-- Cabeçalho com botões de controle -->
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #34495e;">
@@ -94,7 +94,7 @@
                     
                     <div style="margin: 10px 0;">
                         <label style="display: block; margin-bottom: 5px; font-size: 12px;">⏱️ Intervalo (segundos):</label>
-                        <input type="number" id="comenterInterval" value="3" min="1" max="60" 
+                        <input type="number" id="comenterInterval" value="5" min="3" max="60" 
                             style="width: 100%; padding: 8px; border: none; border-radius: 5px; background: #2c3e50; color: white;">
                     </div>
                     
@@ -104,7 +104,15 @@
                             <option value="auto">Auto-detect (Recomendado)</option>
                             <option value="enter">Tecla ENTER</option>
                             <option value="button">Botão Enviar</option>
+                            <option value="simulate">Simulação Completa</option>
                         </select>
+                    </div>
+
+                    <div style="margin: 10px 0;">
+                        <label style="display: block; margin-bottom: 5px; font-size: 12px;">⏰ Delay de Segurança:</label>
+                        <input type="number" id="comenterDelay" value="1000" min="500" max="5000" 
+                            style="width: 100%; padding: 8px; border: none; border-radius: 5px; background: #2c3e50; color: white;">
+                        <div style="color: #bdc3c7; font-size: 10px; margin-top: 3px;">Milissegundos entre ações (recomendado: 1000)</div>
                     </div>
                 </div>
 
@@ -295,8 +303,8 @@ Terceiro comentário</textarea>
         }
     };
 
-    // ========== FUNÇÕES DO BOT ==========
-    window.startComenterBot = function() {
+    // ========== FUNÇÕES DO BOT MELHORADAS ==========
+    window.startComenterBot = async function() {
         if (window.comenterRunning) {
             updateStatus('⚠️ Bot já está rodando!', '#f39c12');
             return;
@@ -305,9 +313,15 @@ Terceiro comentário</textarea>
         const interval = parseInt(document.getElementById('comenterInterval').value) * 1000;
         const messages = document.getElementById('comenterMessages').value.split('\n').filter(m => m.trim());
         const mode = document.getElementById('comenterMode').value;
+        const safetyDelay = parseInt(document.getElementById('comenterDelay').value);
 
         if (messages.length === 0) {
             updateStatus('❌ Digite pelo menos uma mensagem!', '#e74c3c');
+            return;
+        }
+
+        if (interval < 3000) {
+            updateStatus('❌ Intervalo muito curto! Use pelo menos 3 segundos.', '#e74c3c');
             return;
         }
 
@@ -319,31 +333,32 @@ Terceiro comentário</textarea>
 
         let messageIndex = 0;
 
-        setTimeout(() => {
-            window.comenterIntervalId = setInterval(() => {
-                if (!window.comenterRunning) return;
+        // Aguardar antes de começar
+        await delay(3000);
 
-                const message = messages[messageIndex % messages.length];
-                const success = sendCommentAutomatically(message, mode);
+        window.comenterIntervalId = setInterval(async () => {
+            if (!window.comenterRunning) return;
 
-                if (success) {
-                    window.messageCount++;
-                    updateStatus(`📤 ${window.messageCount} mensagens enviadas | "${message.substring(0, 20)}..."`, '#27ae60');
-                    
-                    // Atualizar painel minimizado
-                    if (window.isMinimized) {
-                        const minimizedText = document.getElementById('minimizedStatus');
-                        if (minimizedText) {
-                            minimizedText.textContent = `${window.messageCount} msgs enviadas`;
-                        }
+            const message = messages[messageIndex % messages.length];
+            const success = await sendCommentImproved(message, mode, safetyDelay);
+
+            if (success) {
+                window.messageCount++;
+                updateStatus(`📤 ${window.messageCount} mensagens enviadas | "${message.substring(0, 20)}..."`, '#27ae60');
+                
+                // Atualizar painel minimizado
+                if (window.isMinimized) {
+                    const minimizedText = document.getElementById('minimizedStatus');
+                    if (minimizedText) {
+                        minimizedText.textContent = `${window.messageCount} msgs enviadas`;
                     }
-                } else {
-                    updateStatus('❌ Clique no campo de comentário!', '#e74c3c');
                 }
+            } else {
+                updateStatus('❌ Erro ao enviar. Verifique o campo de comentário.', '#e74c3c');
+            }
 
-                messageIndex++;
-            }, interval);
-        }, 3000);
+            messageIndex++;
+        }, interval);
     };
 
     window.stopComenterBot = function() {
@@ -363,90 +378,239 @@ Terceiro comentário</textarea>
         }
     };
 
-    // ========== FUNÇÕES AUXILIARES ==========
-    function sendCommentAutomatically(message, mode) {
-        const activeElement = document.activeElement;
-        
-        if (!activeElement || !isEditableElement(activeElement)) {
-            const commentFields = document.querySelectorAll('textarea, input[type="text"], [contenteditable="true"]');
-            if (commentFields.length > 0) {
-                commentFields[0].focus();
-            } else {
+    // ========== FUNÇÕES AUXILIARES MELHORADAS ==========
+    async function sendCommentImproved(message, mode, safetyDelay) {
+        try {
+            // 1. Encontrar campo de comentário
+            const commentField = await findCommentField();
+            if (!commentField) {
+                updateStatus('❌ Campo de comentário não encontrado!', '#e74c3c');
                 return false;
+            }
+
+            // 2. Focar no campo
+            commentField.focus();
+            await delay(safetyDelay / 2);
+
+            // 3. Limpar campo (mais cuidadoso)
+            await clearFieldSafely(commentField);
+            await delay(safetyDelay / 3);
+
+            // 4. Digitar mensagem
+            await typeMessageImproved(commentField, message);
+            await delay(safetyDelay / 2);
+
+            // 5. Enviar comentário
+            const sent = await sendMessageImproved(commentField, mode, safetyDelay);
+            
+            if (sent) {
+                await delay(1000); // Aguardar confirmação
+                return true;
+            }
+            
+            return false;
+            
+        } catch (error) {
+            console.error('Erro ao enviar comentário:', error);
+            return false;
+        }
+    }
+
+    async function findCommentField() {
+        // Tentar elemento ativo primeiro
+        const activeElement = document.activeElement;
+        if (activeElement && isEditableElement(activeElement)) {
+            return activeElement;
+        }
+
+        // Procurar campos de comentário
+        const selectors = [
+            'textarea',
+            'input[type="text"]',
+            '[contenteditable="true"]',
+            '[role="textbox"]',
+            '.comment-input',
+            '.comment-field',
+            '[data-testid="tweetTextarea"]',
+            '#comment',
+            '.ytd-comment-simplebox-renderer #contenteditable-root'
+        ];
+
+        for (const selector of selectors) {
+            const elements = document.querySelectorAll(selector);
+            for (const element of elements) {
+                if (isVisible(element) && isEditableElement(element)) {
+                    return element;
+                }
             }
         }
 
-        const currentElement = document.activeElement;
+        return null;
+    }
+
+    async function clearFieldSafely(element) {
+        if (element.tagName === 'TEXTAREA' || element.tagName === 'INPUT') {
+            element.value = '';
+        } else if (element.isContentEditable) {
+            element.textContent = '';
+            // Para contenteditable, também limpar HTML
+            if (element.innerHTML) {
+                element.innerHTML = '';
+            }
+        }
         
-        clearElement(currentElement);
-        typeMessage(currentElement, message);
+        // Disparar eventos para notificar a aplicação
+        triggerEvent(element, 'input');
+        triggerEvent(element, 'change');
+        triggerEvent(element, 'blur');
+        triggerEvent(element, 'focus');
+    }
+
+    async function typeMessageImproved(element, message) {
+        if (element.tagName === 'TEXTAREA' || element.tagName === 'INPUT') {
+            element.value = message;
+        } else if (element.isContentEditable) {
+            element.textContent = message;
+            // Para algumas plataformas, usar innerHTML pode ser necessário
+            element.innerHTML = message.replace(/\n/g, '<br>');
+        }
         
-        return sendMessage(currentElement, mode);
+        // Disparar múltiplos eventos para garantir
+        triggerEvent(element, 'input');
+        triggerEvent(element, 'change');
+        triggerEvent(element, 'keydown');
+        triggerEvent(element, 'keyup');
+        triggerEvent(element, 'keypress');
+    }
+
+    async function sendMessageImproved(element, mode, safetyDelay) {
+        let sent = false;
+
+        // Tentar modo simulação completa primeiro
+        if (mode === 'simulate' || mode === 'auto') {
+            sent = await simulateHumanSend(element, safetyDelay);
+        }
+
+        // Tentar botão enviar
+        if (!sent && (mode === 'button' || mode === 'auto')) {
+            sent = await findAndClickSendButton(safetyDelay);
+        }
+
+        // Tentar tecla Enter
+        if (!sent && (mode === 'enter' || mode === 'auto')) {
+            sent = await pressEnterKey(element);
+        }
+
+        return sent;
+    }
+
+    async function simulateHumanSend(element, safetyDelay) {
+        try {
+            // Simular comportamento humano
+            element.focus();
+            await delay(safetyDelay / 2);
+            
+            // Disparar eventos de teclado
+            const events = ['keydown', 'keypress', 'keyup'];
+            for (const eventType of events) {
+                const event = new KeyboardEvent(eventType, {
+                    key: 'Enter',
+                    code: 'Enter',
+                    keyCode: 13,
+                    which: 13,
+                    bubbles: true
+                });
+                element.dispatchEvent(event);
+                await delay(50);
+            }
+            
+            // Tentar submit do formulário
+            const form = element.closest('form');
+            if (form) {
+                form.dispatchEvent(new Event('submit', { bubbles: true }));
+                return true;
+            }
+            
+            return false;
+        } catch (error) {
+            return false;
+        }
+    }
+
+    async function findAndClickSendButton(safetyDelay) {
+        const buttonSelectors = [
+            'button[type="submit"]',
+            'button:contains("Enviar")',
+            'button:contains("Comment")',
+            'button:contains("Post")',
+            'button:contains("Publicar")',
+            'button:contains("Send")',
+            '[data-testid="tweetButton"]',
+            '[role="button"]:contains("Tweet")',
+            '.ytd-comment-simplebox-renderer #submit-button',
+            'input[type="submit"]'
+        ];
+
+        for (const selector of buttonSelectors) {
+            try {
+                const buttons = document.querySelectorAll(selector);
+                for (const button of buttons) {
+                    if (isVisible(button) && !button.disabled) {
+                        button.click();
+                        await delay(safetyDelay);
+                        return true;
+                    }
+                }
+            } catch (error) {
+                continue;
+            }
+        }
+        return false;
+    }
+
+    async function pressEnterKey(element) {
+        try {
+            const enterEvent = new KeyboardEvent('keydown', {
+                key: 'Enter',
+                code: 'Enter',
+                keyCode: 13,
+                which: 13,
+                bubbles: true,
+                cancelable: true
+            });
+            
+            return element.dispatchEvent(enterEvent);
+        } catch (error) {
+            return false;
+        }
     }
 
     function isEditableElement(element) {
         return element.tagName === 'TEXTAREA' || 
                element.tagName === 'INPUT' || 
                element.isContentEditable ||
-               element.getAttribute('contenteditable') === 'true';
+               element.getAttribute('contenteditable') === 'true' ||
+               element.getAttribute('role') === 'textbox';
     }
 
-    function clearElement(element) {
-        if (element.tagName === 'TEXTAREA' || element.tagName === 'INPUT') {
-            element.value = '';
-        } else {
-            element.textContent = '';
-        }
-        triggerEvent(element, 'input');
-    }
-
-    function typeMessage(element, message) {
-        if (element.tagName === 'TEXTAREA' || element.tagName === 'INPUT') {
-            element.value = message;
-        } else {
-            element.textContent = message;
-        }
-        triggerEvent(element, 'input');
-    }
-
-    function sendMessage(element, mode) {
-        let sent = false;
-
-        if (mode === 'enter' || mode === 'auto') {
-            const enterEvent = new KeyboardEvent('keydown', {
-                key: 'Enter', code: 'Enter', keyCode: 13, which: 13, bubbles: true
-            });
-            element.dispatchEvent(enterEvent);
-            
-            const form = element.closest('form');
-            if (form) {
-                form.dispatchEvent(new Event('submit', { bubbles: true }));
-                sent = true;
-            }
-        }
-
-        if ((mode === 'button' || mode === 'auto') && !sent) {
-            const buttons = document.querySelectorAll('button, [type="submit"], [role="button"]');
-            const sendButton = Array.from(buttons).find(btn => {
-                const text = (btn.textContent || btn.value || btn.innerHTML || '').toLowerCase();
-                return text.includes('enviar') || text.includes('comment') || 
-                       text.includes('post') || text.includes('publicar') ||
-                       text.includes('send') || text.includes('submit') ||
-                       text.includes('tw-tweet') || text.includes('public');
-            });
-            
-            if (sendButton) {
-                sendButton.click();
-                sent = true;
-            }
-        }
-
-        return sent;
+    function isVisible(element) {
+        return element.offsetWidth > 0 && 
+               element.offsetHeight > 0 && 
+               element.style.visibility !== 'hidden' && 
+               element.style.display !== 'none';
     }
 
     function triggerEvent(element, eventName) {
-        const event = new Event(eventName, { bubbles: true });
-        element.dispatchEvent(event);
+        try {
+            const event = new Event(eventName, { bubbles: true, cancelable: true });
+            element.dispatchEvent(event);
+        } catch (error) {
+            // Ignorar erros de evento
+        }
+    }
+
+    function delay(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
     }
 
     function updateStatus(message, color = '#3498db') {
@@ -488,8 +652,6 @@ Terceiro comentário</textarea>
             window.closePanel();
         }
     });
-
-    // REMOVI O EVENT LISTENER QUE FECHAVA AO CLICAR NO OVERLAY
 
     // Configurar botões e funcionalidades
     setTimeout(() => {
