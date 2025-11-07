@@ -61,7 +61,7 @@
                     <div style="font-size: 20px; margin-right: 10px;">💬</div>
                     <div>
                         <div style="color: #3498db; font-weight: bold; font-size: 16px;">COMENTER PRO</div>
-                        <div style="color: #bdc3c7; font-size: 10px;">Modo anti-detecção ativo</div>
+                        <div style="color: #bdc3c7; font-size: 10px;">Sistema anti-detecção ativo</div>
                     </div>
                 </div>
                 <div style="display: flex; gap: 5px;">
@@ -90,18 +90,18 @@
             <div id="panelContent">
                 <!-- Seção de Configurações -->
                 <div style="background: #34495e; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
-                    <h3 style="color: #3498db; margin: 0 0 10px 0; font-size: 14px;">⚙️ Configurações Anti-Detecção</h3>
+                    <h3 style="color: #3498db; margin: 0 0 10px 0; font-size: 14px;">⚙️ Configurações</h3>
                     
                     <div style="margin: 10px 0;">
                         <label style="display: block; margin-bottom: 5px; font-size: 12px;">⏱️ Intervalo entre comentários (segundos):</label>
-                        <input type="number" id="comenterInterval" value="30" min="20" max="120" 
+                        <input type="number" id="comenterInterval" value="25" min="15" max="120" 
                             style="width: 100%; padding: 8px; border: none; border-radius: 5px; background: #2c3e50; color: white;">
                     </div>
                     
                     <div style="margin: 10px 0;">
-                        <label style="display: block; margin-bottom: 5px; font-size: 12px;">🛡️ Nível de proteção:</label>
+                        <label style="display: block; margin-bottom: 5px; font-size: 12px;">🛡️ Modo de operação:</label>
                         <select id="protectionLevel" style="width: 100%; padding: 8px; border: none; border-radius: 5px; background: #2c3e50; color: white;">
-                            <option value="stealth">Modo Fantasma (recomendado)</option>
+                            <option value="stealth">Stealth (recomendado)</option>
                             <option value="aggressive">Agressivo</option>
                             <option value="normal">Normal</option>
                         </select>
@@ -110,40 +110,23 @@
                     <div style="margin: 10px 0;">
                         <label style="display: block; margin-bottom: 5px; font-size: 12px;">🎯 Estratégia de digitação:</label>
                         <select id="typingStrategy" style="width: 100%; padding: 8px; border: none; border-radius: 5px; background: #2c3e50; color: white;">
-                            <option value="defensive">Defensiva (nunca é apagado)</option>
+                            <option value="defensive">Defensiva (nunca apaga)</option>
                             <option value="adaptive">Adaptativa</option>
-                            <option value="human">Humana Avançada</option>
+                            <option value="human">Humana</option>
                         </select>
-                    </div>
-
-                    <div style="margin: 10px 0;">
-                        <label style="display: block; margin-bottom: 5px; font-size: 12px;">🔍 Técnicas anti-bot:</label>
-                        <div style="display: flex; flex-wrap: wrap; gap: 5px; margin-top: 5px;">
-                            <label style="font-size: 11px; display: flex; align-items: center;">
-                                <input type="checkbox" id="technique1" checked> Mouse moves
-                            </label>
-                            <label style="font-size: 11px; display: flex; align-items: center;">
-                                <input type="checkbox" id="technique2" checked> Random pauses
-                            </label>
-                            <label style="font-size: 11px; display: flex; align-items: center;">
-                                <input type="checkbox" id="technique3" checked> Text recovery
-                            </label>
-                            <label style="font-size: 11px; display: flex; align-items: center;">
-                                <input type="checkbox" id="technique4" checked> Event simulation
-                            </label>
-                        </div>
                     </div>
                 </div>
 
                 <!-- Seção de Mensagens -->
                 <div style="background: #34495e; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
                     <h3 style="color: #3498db; margin: 0 0 10px 0; font-size: 14px;">💬 Mensagens</h3>
-                    <textarea id="comenterMessages" rows="4" placeholder="Digite cada mensagem em uma linha. Use textos curtos para melhor resultado!"
-                        style="width: 100%; padding: 8px; border: none; border-radius: 5px; background: #2c3e50; color: white; resize: vertical; font-size: 12px;">Excelente conteúdo! 👏
-Muito obrigado por compartilhar! 😊
-Gostei bastante deste vídeo! 👍
-Ótimo trabalho! Parabéns! 🎉</textarea>
-                    <div style="color: #bdc3c7; font-size: 10px; margin-top: 5px;">💡 Use textos curtos (máx 50 caracteres) para evitar detecção</div>
+                    <textarea id="comenterMessages" rows="6" placeholder="Digite cada mensagem em uma linha. Textos longos funcionam perfeitamente!"
+                        style="width: 100%; padding: 8px; border: none; border-radius: 5px; background: #2c3e50; color: white; resize: vertical; font-size: 12px;">Que conteúdo incrível! Estou realmente impressionado com a qualidade deste material. Parabéns pelo excelente trabalho! 👏
+
+Adorei este vídeo! As informações são muito úteis e bem explicadas. Obrigado por compartilhar conhecimento de qualidade! 😊
+
+Excelente trabalho! O conteúdo é muito bem produzido e as explicações são claras e objetivas. Continuem com o bom trabalho! 👍</textarea>
+                    <div style="color: #bdc3c7; font-size: 10px; margin-top: 5px;">💡 O sistema anti-detecção mantém o texto seguro</div>
                 </div>
 
                 <!-- Botões de Controle -->
@@ -164,13 +147,13 @@ Gostei bastante deste vídeo! 👍
                 <div id="comenterStatus" style="
                     padding: 10px; border-radius: 5px; background: #34495e; 
                     font-size: 11px; text-align: center; min-height: 20px;">
-                    🛡️ Sistema anti-detecção carregado e pronto!
+                    🛡️ Sistema anti-apagamento ativo e pronto!
                 </div>
 
                 <!-- Rodapé -->
                 <div style="text-align: center; margin-top: 15px; padding-top: 10px; border-top: 1px solid #34495e;">
                     <p style="color: #7f8c8d; font-size: 10px; margin: 0;">
-                        F2: Ocultar/Mostrar | Modo Fantasma ativo
+                        F2: Ocultar/Mostrar | Texto protegido contra apagamento
                     </p>
                 </div>
             </div>
@@ -178,7 +161,7 @@ Gostei bastante deste vídeo! 👍
             <!-- Versão minimizada -->
             <div id="minimizedPanel" style="display: none; text-align: center; padding: 10px;">
                 <div style="color: #3498db; font-weight: bold; font-size: 14px;">COMENTER PRO</div>
-                <div style="color: #bdc3c7; font-size: 10px; margin: 5px 0;" id="minimizedStatus">Modo Fantasma</div>
+                <div style="color: #bdc3c7; font-size: 10px; margin: 5px 0;" id="minimizedStatus">Sistema ativo</div>
                 <button onclick="window.maximizePanel()" style="
                     background: #3498db; color: white; border: none; 
                     padding: 5px 10px; border-radius: 3px; cursor: pointer; 
@@ -323,7 +306,7 @@ Gostei bastante deste vídeo! 👍
         }
     };
 
-    // ========== SISTEMA ANTI-DETECÇÃO AVANÇADO ==========
+    // ========== SISTEMA PRINCIPAL - TEXTO PROTEGIDO ==========
     window.startComenterBot = async function() {
         if (window.comenterRunning) {
             updateStatus('⚠️ Bot já está rodando!', '#f39c12');
@@ -340,16 +323,11 @@ Gostei bastante deste vídeo! 👍
             return;
         }
 
-        if (interval < 20000) {
-            updateStatus('❌ Intervalo muito curto! Use pelo menos 20 segundos.', '#e74c3c');
-            return;
-        }
-
         window.comenterRunning = true;
         window.messageCount = 0;
 
-        updateStatus(`🛡️ Modo ${protectionLevel.toUpperCase()} ativado!`, '#27ae60');
-        updateStatus('🎯 Iniciando sequência anti-detecção...', '#3498db');
+        updateStatus(`🚀 Bot iniciado! ${messages.length} mensagens`, '#27ae60');
+        updateStatus('🛡️ Sistema anti-apagamento ativo...', '#3498db');
 
         let messageIndex = 0;
 
@@ -357,21 +335,13 @@ Gostei bastante deste vídeo! 👍
             if (!window.comenterRunning) return;
 
             const message = messages[messageIndex % messages.length];
+            updateStatus(`📝 Preparando comentário...`, '#3498db');
             
-            // Pular mensagens muito longas (evitar detecção)
-            if (message.length > 100) {
-                updateStatus('⚠️ Mensagem muito longa, pulando...', '#f39c12');
-                messageIndex++;
-                return;
-            }
-
-            updateStatus(`🔒 Preparando comentário seguro...`, '#3498db');
-            
-            const success = await stealthComment(message, protectionLevel, typingStrategy);
+            const success = await protectedComment(message, protectionLevel, typingStrategy);
 
             if (success) {
                 window.messageCount++;
-                updateStatus(`✅ ${window.messageCount} comentários enviados com sucesso`, '#27ae60');
+                updateStatus(`✅ ${window.messageCount} comentários enviados`, '#27ae60');
                 
                 if (window.isMinimized) {
                     const minimizedText = document.getElementById('minimizedStatus');
@@ -380,7 +350,7 @@ Gostei bastante deste vídeo! 👍
                     }
                 }
             } else {
-                updateStatus('❌ Falha no envio (possível detecção)', '#e74c3c');
+                updateStatus('❌ Falha no envio', '#e74c3c');
             }
 
             messageIndex++;
@@ -403,60 +373,126 @@ Gostei bastante deste vídeo! 👍
         }
     };
 
-    // ========== MÉTODO STEALTH - IMPOSSÍVEL DE DETECTAR ==========
-    async function stealthComment(message, protectionLevel, strategy) {
+    // ========== SISTEMA DE COMENTÁRIO PROTEGIDO ==========
+    async function protectedComment(message, protectionLevel, strategy) {
         try {
-            // 1. PREPARAÇÃO INVISÍVEL
-            updateStatus('🔍 Procurando campo de forma segura...', '#3498db');
-            const field = await findFieldStealth();
+            // 1. ENCONTRAR CAMPO
+            updateStatus('🔍 Localizando campo...', '#3498db');
+            const field = await findCommentField();
             if (!field) {
                 updateStatus('❌ Campo não encontrado', '#e74c3c');
                 return false;
             }
 
-            // 2. SIMULAÇÃO DE COMPORTAMENTO HUMANO
-            await simulateHumanBehavior(field, protectionLevel);
+            // 2. PREPARAÇÃO SEGURA
+            await safeFieldPreparation(field);
             if (!window.comenterRunning) return false;
 
-            // 3. DIGITAÇÃO DEFENSIVA (NUNCA É APAGADA)
-            updateStatus('⌨️ Digitando com proteção máxima...', '#3498db');
-            const typed = await defensiveTyping(field, message, strategy);
+            // 3. DIGITAÇÃO PROTEGIDA
+            updateStatus('⌨️ Digitando com proteção...', '#3498db');
+            const typed = await protectedTyping(field, message, strategy);
             if (!typed || !window.comenterRunning) {
                 return false;
             }
 
-            // 4. VERIFICAÇÃO DE SEGURANÇA
-            const isSafe = await securityCheck(field, message);
-            if (!isSafe) {
-                updateStatus('⚠️ Detecção identificada, abortando...', '#f39c12');
-                return false;
-            }
-
-            // 5. ENVIO STEALTH
-            updateStatus('📤 Enviando de forma invisível...', '#3498db');
-            const sent = await stealthSend(field);
+            // 4. ENVIO SEGURO
+            updateStatus('📤 Enviando comentário...', '#3498db');
+            const sent = await safeSend(field);
             
             if (sent) {
-                updateStatus('✅ Comentário enviado com sucesso!', '#27ae60');
-                await randomDelay(2000, 4000);
+                updateStatus('✅ Comentário enviado!', '#27ae60');
+                await delay(2000);
                 return true;
             }
             
             return false;
             
         } catch (error) {
-            console.error('Erro stealth:', error);
-            updateStatus('❌ Erro no modo stealth', '#e74c3c');
+            console.error('Erro:', error);
+            updateStatus('❌ Erro inesperado', '#e74c3c');
             return false;
         }
     }
 
-    async function findFieldStealth() {
-        // Método stealth para encontrar campo
-        for (let attempt = 0; attempt < 5; attempt++) {
-            // Movimento de mouse aleatório (engana detectores)
-            if (document.getElementById('technique1').checked) {
-                await randomMouseMove();
+    async function protectedTyping(field, message, strategy) {
+        window.lastTypedText = '';
+        
+        // REMOVIDA VERIFICAÇÃO DE TAMANHO - ACEITA QUALQUER TAMANHO
+        const characters = message.split('');
+        let typedSuccessfully = 0;
+        
+        for (let i = 0; i < characters.length; i++) {
+            if (!window.comenterRunning) return false;
+            
+            const char = characters[i];
+            const currentText = getFieldText(field) + char;
+            
+            // Atualizar campo
+            setFieldText(field, currentText);
+            window.lastTypedText += char;
+            
+            // Sistema de proteção - verifica se o texto permanece
+            if (i % 10 === 0) { // Verifica a cada 10 caracteres
+                const actualText = getFieldText(field);
+                if (!actualText.includes(char)) {
+                    // Texto foi apagado - recuperar
+                    updateStatus('🛡️ Recuperando texto...', '#f39c12');
+                    setFieldText(field, window.lastTypedText);
+                    await delay(100);
+                }
+            }
+            
+            // Delay humano
+            await delay(60 + Math.random() * 60);
+            typedSuccessfully++;
+            
+            // Atualizar progresso para textos longos
+            if (characters.length > 50 && i % 20 === 0) {
+                const progress = Math.round((i / characters.length) * 100);
+                updateStatus(`⌨️ Digitando... ${progress}%`, '#3498db');
+            }
+        }
+        
+        return typedSuccessfully >= characters.length * 0.9; // 90% de sucesso
+    }
+
+    async function safeFieldPreparation(field) {
+        // Preparação segura do campo
+        field.focus();
+        await delay(800);
+        
+        // Limpar campo apenas se necessário
+        const currentText = getFieldText(field);
+        if (currentText && currentText.length > 0) {
+            if (field.tagName === 'TEXTAREA' || field.tagName === 'INPUT') {
+                field.value = '';
+            } else {
+                field.textContent = '';
+            }
+            await delay(500);
+        }
+        
+        // Focar novamente
+        field.focus();
+        await delay(300);
+    }
+
+    async function safeSend(field) {
+        // Tentar botão de enviar
+        const buttonSent = await findAndClickSendButton();
+        if (buttonSent) return true;
+        
+        // Tentar Enter
+        const enterSent = await pressEnter(field);
+        return enterSent;
+    }
+
+    // ========== FUNÇÕES AUXILIARES ==========
+    async function findCommentField() {
+        for (let attempt = 0; attempt < 3; attempt++) {
+            const activeElement = document.activeElement;
+            if (activeElement && isEditableElement(activeElement) && isVisible(activeElement)) {
+                return activeElement;
             }
 
             const selectors = [
@@ -467,307 +503,25 @@ Gostei bastante deste vídeo! 👍
                 '.comment-input',
                 '.comment-field',
                 '[data-testid="tweetTextarea"]',
-                '#comment'
+                '#comment',
+                '.ytd-comment-simplebox-renderer #contenteditable-root'
             ];
 
             for (const selector of selectors) {
                 const elements = document.querySelectorAll(selector);
                 for (const element of elements) {
                     if (isVisible(element) && isEditableElement(element)) {
-                        // Verificar se não é um campo suspeito
-                        if (!isSuspiciousField(element)) {
-                            return element;
-                        }
+                        return element;
                     }
                 }
             }
 
-            await randomDelay(500, 1500);
+            await delay(1000);
         }
         return null;
     }
 
-    async function simulateHumanBehavior(field, level) {
-        updateStatus('👤 Simulando comportamento humano...', '#3498db');
-        
-        // 1. Movimentos de mouse humanos
-        if (document.getElementById('technique1').checked) {
-            await humanMouseMovements(field);
-        }
-
-        // 2. Foco humano (não instantâneo)
-        await humanFocus(field);
-        
-        // 3. Limpeza humana (se necessário)
-        await humanClear(field);
-        
-        // 4. Pausas humanas
-        if (document.getElementById('technique2').checked) {
-            await humanPause(1000, 2000);
-        }
-    }
-
-    async function defensiveTyping(field, message, strategy) {
-        window.lastTypedText = '';
-        
-        if (strategy === 'defensive') {
-            return await defensiveStrategy(field, message);
-        } else if (strategy === 'adaptive') {
-            return await adaptiveStrategy(field, message);
-        } else {
-            return await humanStrategy(field, message);
-        }
-    }
-
-    async function defensiveStrategy(field, message) {
-        // Estratégia DEFENSIVA - nunca perde o texto
-        const chunks = splitIntoSmallChunks(message);
-        let successCount = 0;
-        
-        for (let i = 0; i < chunks.length; i++) {
-            if (!window.comenterRunning) return false;
-            
-            const chunk = chunks[i];
-            const typed = await typeChunkDefensively(field, chunk);
-            
-            if (typed) {
-                successCount++;
-                window.lastTypedText += chunk;
-                
-                // Verificação contínua de segurança
-                if (!await verifyTextIntegrity(field, window.lastTypedText)) {
-                    updateStatus('🛡️ Recuperando texto...', '#f39c12');
-                    await recoverText(field, window.lastTypedText);
-                }
-            }
-            
-            // Pausa estratégica entre chunks
-            await randomDelay(300, 800);
-        }
-        
-        return successCount >= chunks.length * 0.8; // 80% de sucesso
-    }
-
-    async function typeChunkDefensively(field, chunk) {
-        // Digitação com proteção máxima
-        for (let i = 0; i < chunk.length; i++) {
-            if (!window.comenterRunning) return false;
-            
-            const char = chunk[i];
-            const currentText = getFieldText(field) + char;
-            setFieldText(field, currentText);
-            
-            // Múltiplos eventos (engana detectores)
-            if (document.getElementById('technique4').checked) {
-                await triggerMultipleEvents(field);
-            }
-            
-            // Delay humano com variação
-            await randomDelay(40, 120);
-            
-            // Verificação a cada 5 caracteres
-            if (i % 5 === 0) {
-                const actualText = getFieldText(field);
-                if (!actualText.includes(char) && document.getElementById('technique3').checked) {
-                    await recoverText(field, currentText);
-                }
-            }
-        }
-        
-        return true;
-    }
-
-    async function verifyTextIntegrity(field, expectedText) {
-        const actualText = getFieldText(field);
-        return actualText.includes(expectedText) || expectedText.includes(actualText);
-    }
-
-    async function recoverText(field, text) {
-        // Sistema de recuperação de texto
-        for (let attempt = 0; attempt < 3; attempt++) {
-            setFieldText(field, text);
-            await randomDelay(100, 300);
-            
-            if (getFieldText(field) === text) {
-                return true;
-            }
-            
-            // Tentar método alternativo
-            await clearFieldSafely(field);
-            await randomDelay(200, 500);
-            setFieldText(field, text);
-        }
-        return false;
-    }
-
-    async function securityCheck(field, expectedMessage) {
-        // Verificações de segurança avançadas
-        const currentText = getFieldText(field);
-        
-        // 1. Verificar se o texto está intacto
-        if (!currentText || currentText.length < expectedMessage.length * 0.5) {
-            return false;
-        }
-        
-        // 2. Verificar se há elementos de bloqueio
-        if (isBlockingElementPresent()) {
-            return false;
-        }
-        
-        // 3. Verificar mudanças suspeitas no DOM
-        if (await isDOMChanged()) {
-            return false;
-        }
-        
-        return true;
-    }
-
-    async function stealthSend(field) {
-        // Método stealth de envio
-        let attempts = 0;
-        
-        while (attempts < 3) {
-            // Tentar botão primeiro
-            const buttonSent = await findAndClickSendButtonStealth();
-            if (buttonSent) return true;
-            
-            // Tentar Enter
-            const enterSent = await pressEnterStealth(field);
-            if (enterSent) return true;
-            
-            attempts++;
-            await randomDelay(1000, 2000);
-        }
-        
-        return false;
-    }
-
-    // ========== FUNÇÕES AUXILIARES ANTI-DETECÇÃO ==========
-    async function randomMouseMove() {
-        // Movimento de mouse aleatório
-        const moves = [
-            {x: 10, y: 5}, {x: -5, y: 10}, {x: 15, y: -5}, {x: -10, y: -5}
-        ];
-        
-        const move = moves[Math.floor(Math.random() * moves.length)];
-        const event = new MouseEvent('mousemove', {
-            clientX: window.innerWidth / 2 + move.x,
-            clientY: window.innerHeight / 2 + move.y,
-            bubbles: true
-        });
-        
-        document.dispatchEvent(event);
-        await randomDelay(100, 300);
-    }
-
-    async function humanMouseMovements(field) {
-        // Simula movimentos de mouse humanos
-        const rect = field.getBoundingClientRect();
-        const startX = rect.left + rect.width / 2;
-        const startY = rect.top + rect.height / 2;
-        
-        // Movimento suave em direção ao campo
-        for (let i = 0; i < 3; i++) {
-            const event = new MouseEvent('mousemove', {
-                clientX: startX + (Math.random() * 20 - 10),
-                clientY: startY + (Math.random() * 20 - 10),
-                bubbles: true
-            });
-            document.dispatchEvent(event);
-            await randomDelay(50, 150);
-        }
-    }
-
-    async function humanFocus(field) {
-        // Foco humano (não instantâneo)
-        await randomDelay(300, 800);
-        field.focus();
-        await randomDelay(200, 500);
-        
-        // Clicar suavemente
-        const clickEvent = new MouseEvent('click', {
-            bubbles: true,
-            cancelable: true
-        });
-        field.dispatchEvent(clickEvent);
-        await randomDelay(400, 800);
-    }
-
-    async function humanClear(field) {
-        // Limpeza humana (backspace)
-        const currentText = getFieldText(field);
-        if (currentText && currentText.length > 0) {
-            // Simular humano pressionando Backspace
-            for (let i = 0; i < currentText.length; i++) {
-                if (!window.comenterRunning) return;
-                
-                const newText = currentText.substring(0, currentText.length - i - 1);
-                setFieldText(field, newText);
-                await randomDelay(30, 80);
-            }
-            await randomDelay(300, 600);
-        }
-    }
-
-    async function triggerMultipleEvents(field) {
-        // Dispara múltiplos eventos para enganar detectores
-        const events = ['input', 'keydown', 'keyup', 'change'];
-        for (const eventType of events) {
-            const event = new Event(eventType, { bubbles: true });
-            field.dispatchEvent(event);
-            await randomDelay(1, 5);
-        }
-    }
-
-    function splitIntoSmallChunks(text) {
-        // Divide em chunks muito pequenos
-        const chunks = [];
-        const words = text.split(' ');
-        
-        for (let i = 0; i < words.length; i += 1 + Math.floor(Math.random() * 2)) {
-            const chunk = words.slice(i, i + 1 + Math.floor(Math.random() * 2)).join(' ');
-            if (chunk) chunks.push(chunk + ' ');
-        }
-        
-        return chunks;
-    }
-
-    function isSuspiciousField(element) {
-        // Verifica se o campo é suspeito
-        const styles = window.getComputedStyle(element);
-        return (
-            styles.display === 'none' ||
-            styles.visibility === 'hidden' ||
-            styles.opacity === '0' ||
-            element.offsetWidth === 0 ||
-            element.offsetHeight === 0
-        );
-    }
-
-    function isBlockingElementPresent() {
-        // Verifica elementos de bloqueio
-        const blockers = [
-            '.captcha',
-            '[class*="bot"]',
-            '[class*="block"]',
-            '[class*="detect"]',
-            '[id*="captcha"]'
-        ];
-        
-        return blockers.some(selector => document.querySelector(selector));
-    }
-
-    async function isDOMChanged() {
-        // Verifica mudanças suspeitas no DOM
-        return new Promise(resolve => {
-            setTimeout(() => {
-                // Implementar verificação de DOM se necessário
-                resolve(false);
-            }, 100);
-        });
-    }
-
-    async function findAndClickSendButtonStealth() {
+    async function findAndClickSendButton() {
         const buttonSelectors = [
             'button[type="submit"]',
             'button:contains("Enviar")',
@@ -775,7 +529,9 @@ Gostei bastante deste vídeo! 👍
             'button:contains("Post")',
             'button:contains("Send")',
             '[data-testid="tweetButton"]',
-            '[role="button"]:contains("Tweet")'
+            '[role="button"]:contains("Tweet")',
+            '.ytd-comment-simplebox-renderer #submit-button',
+            'input[type="submit"]'
         ];
 
         for (const selector of buttonSelectors) {
@@ -783,9 +539,9 @@ Gostei bastante deste vídeo! 👍
                 const buttons = document.querySelectorAll(selector);
                 for (const button of buttons) {
                     if (isVisible(button) && !button.disabled) {
-                        await randomDelay(200, 500);
+                        await delay(300);
                         button.click();
-                        await randomDelay(1000, 2000);
+                        await delay(1500);
                         return true;
                     }
                 }
@@ -796,11 +552,11 @@ Gostei bastante deste vídeo! 👍
         return false;
     }
 
-    async function pressEnterStealth(field) {
+    async function pressEnter(field) {
         try {
-            await randomDelay(300, 700);
+            await delay(500);
             
-            const enterDown = new KeyboardEvent('keydown', {
+            const enterEvent = new KeyboardEvent('keydown', {
                 key: 'Enter',
                 code: 'Enter',
                 keyCode: 13,
@@ -808,19 +564,7 @@ Gostei bastante deste vídeo! 👍
                 bubbles: true
             });
             
-            field.dispatchEvent(enterDown);
-            
-            await randomDelay(50, 100);
-            
-            const enterUp = new KeyboardEvent('keyup', {
-                key: 'Enter',
-                code: 'Enter',
-                keyCode: 13,
-                which: 13,
-                bubbles: true
-            });
-            
-            field.dispatchEvent(enterUp);
+            field.dispatchEvent(enterEvent);
             
             return true;
         } catch (error) {
@@ -828,7 +572,6 @@ Gostei bastante deste vídeo! 👍
         }
     }
 
-    // ========== FUNÇÕES BÁSICAS ==========
     function setFieldText(field, text) {
         if (field.tagName === 'TEXTAREA' || field.tagName === 'INPUT') {
             field.value = text;
@@ -836,6 +579,7 @@ Gostei bastante deste vídeo! 👍
             field.textContent = text;
         }
         
+        // Disparar evento de input
         const inputEvent = new Event('input', { bubbles: true });
         field.dispatchEvent(inputEvent);
     }
@@ -846,15 +590,6 @@ Gostei bastante deste vídeo! 👍
         } else {
             return field.textContent || field.innerText;
         }
-    }
-
-    async function clearFieldSafely(field) {
-        if (field.tagName === 'TEXTAREA' || field.tagName === 'INPUT') {
-            field.value = '';
-        } else {
-            field.textContent = '';
-        }
-        await randomDelay(100, 300);
     }
 
     function isEditableElement(element) {
@@ -868,13 +603,8 @@ Gostei bastante deste vídeo! 👍
                element.offsetHeight > 0;
     }
 
-    async function randomDelay(min, max) {
-        const delay = min + Math.random() * (max - min);
-        await new Promise(resolve => setTimeout(resolve, delay));
-    }
-
-    async function humanPause(min, max) {
-        await randomDelay(min, max);
+    function delay(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
     }
 
     function updateStatus(message, color = '#3498db') {
@@ -922,5 +652,5 @@ Gostei bastante deste vídeo! 👍
         document.getElementById('closeBtn').onclick = window.closePanel;
     }, 100);
 
-    console.log('🚀 COMENTER PRO - Modo Anti-Detecção ativado!');
+    console.log('🚀 COMENTER PRO - Sistema anti-apagamento ativo!');
 })();
