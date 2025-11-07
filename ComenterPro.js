@@ -57,7 +57,7 @@
                     <div style="font-size: 20px; margin-right: 10px;">💬</div>
                     <div>
                         <div style="color: #3498db; font-weight: bold; font-size: 16px;">COMENTER PRO</div>
-                        <div style="color: #bdc3c7; font-size: 10px;">Digitação humana REAL</div>
+                        <div style="color: #bdc3c7; font-size: 10px;">Velocidade humana REAL</div>
                     </div>
                 </div>
                 <div style="display: flex; gap: 5px;">
@@ -84,29 +84,30 @@
             
             <div id="panelContent">
                 <div style="background: #34495e; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
-                    <h3 style="color: #3498db; margin: 0 0 10px 0; font-size: 14px;">⚙️ Configurações Humanas</h3>
+                    <h3 style="color: #3498db; margin: 0 0 10px 0; font-size: 14px;">⚙️ Velocidade Humana</h3>
                     
                     <div style="margin: 10px 0;">
-                        <label style="display: block; margin-bottom: 5px; font-size: 12px;">⏱️ Intervalo (segundos):</label>
-                        <input type="number" id="comenterInterval" value="45" min="30" max="120" 
+                        <label style="display: block; margin-bottom: 5px; font-size: 12px;">⏱️ Intervalo entre comentários (minutos):</label>
+                        <input type="number" id="comenterInterval" value="2" min="1" max="10" 
                             style="width: 100%; padding: 8px; border: none; border-radius: 5px; background: #2c3e50; color: white;">
+                        <div style="color: #bdc3c7; font-size: 10px; margin-top: 3px;">💡 Use 2+ minutos para parecer mais humano</div>
                     </div>
                     
                     <div style="margin: 10px 0;">
-                        <label style="display: block; margin-bottom: 5px; font-size: 12px;">👤 Tipo de digitador:</label>
-                        <select id="humanType" style="width: 100%; padding: 8px; border: none; border-radius: 5px; background: #2c3e50; color: white;">
-                            <option value="beginner">Iniciante (muitos erros)</option>
-                            <option value="normal" selected>Normal (alguns erros)</option>
-                            <option value="expert">Experiente (poucos erros)</option>
+                        <label style="display: block; margin-bottom: 5px; font-size: 12px;">🐌 Velocidade de digitação:</label>
+                        <select id="typingSpeed" style="width: 100%; padding: 8px; border: none; border-radius: 5px; background: #2c3e50; color: white;">
+                            <option value="verySlow">Muito Lenta (200-400ms/letra)</option>
+                            <option value="slow" selected>Lenta (150-300ms/letra)</option>
+                            <option value="normal">Normal (100-200ms/letra)</option>
                         </select>
                     </div>
 
                     <div style="margin: 10px 0;">
-                        <label style="display: block; margin-bottom: 5px; font-size: 12px;">📖 Tamanho do "caderno":</label>
-                        <select id="notebookSize" style="width: 100%; padding: 8px; border: none; border-radius: 5px; background: #2c3e50; color: white;">
-                            <option value="small">Pequeno (2-3 palavras)</option>
-                            <option value="medium" selected>Médio (4-6 palavras)</option>
-                            <option value="large">Grande (7-10 palavras)</option>
+                        <label style="display: block; margin-bottom: 5px; font-size: 12px;">💭 Pausas humanas:</label>
+                        <select id="pauseFrequency" style="width: 100%; padding: 8px; border: none; border-radius: 5px; background: #2c3e50; color: white;">
+                            <option value="frequent">Frequentes (como humano cansado)</option>
+                            <option value="normal" selected>Normais (pensando no que escrever)</option>
+                            <option value="rare">Raras (digitador experiente)</option>
                         </select>
                     </div>
                 </div>
@@ -114,10 +115,10 @@
                 <div style="background: #34495e; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
                     <h3 style="color: #3498db; margin: 0 0 10px 0; font-size: 14px;">💬 Mensagens</h3>
                     <textarea id="comenterMessages" rows="4" placeholder="Digite cada mensagem em uma linha"
-                        style="width: 100%; padding: 8px; border: none; border-radius: 5px; background: #2c3e50; color: white; resize: vertical; font-size: 12px;">Gostei muito deste conteúdo! Parabéns pelo trabalho 👏
-Excelente explicação, muito obrigado por compartilhar 😊
-Que vídeo incrível! Aprendi bastante com suas dicas 👍</textarea>
-                    <div style="color: #bdc3c7; font-size: 10px; margin-top: 5px;">💡 O bot vai "ler do caderno" e digitar como humano</div>
+                        style="width: 100%; padding: 8px; border: none; border-radius: 5px; background: #2c3e50; color: white; resize: vertical; font-size: 12px;">Gostei muito do conteúdo! Parabéns 👏
+Excelente explicação, obrigado! 😊
+Vídeo muito bom, aprendi bastante! 👍</textarea>
+                    <div style="color: #bdc3c7; font-size: 10px; margin-top: 5px;">💡 Mensagens curtas funcionam melhor</div>
                 </div>
 
                 <div style="display: flex; gap: 10px; margin-bottom: 15px;">
@@ -136,19 +137,19 @@ Que vídeo incrível! Aprendi bastante com suas dicas 👍</textarea>
                 <div id="comenterStatus" style="
                     padding: 10px; border-radius: 5px; background: #34495e; 
                     font-size: 11px; text-align: center; min-height: 20px;">
-                    👀 Bot vai "ler do caderno" e digitar como humano real
+                    🐌 Velocidade humana lenta ativada
                 </div>
 
                 <div style="text-align: center; margin-top: 15px; padding-top: 10px; border-top: 1px solid #34495e;">
                     <p style="color: #7f8c8d; font-size: 10px; margin: 0;">
-                        F2: Ocultar/Mostrar | Digitação humana autêntica
+                        F2: Ocultar/Mostrar | Digitação MUITO lenta como humano
                     </p>
                 </div>
             </div>
 
             <div id="minimizedPanel" style="display: none; text-align: center; padding: 10px;">
                 <div style="color: #3498db; font-weight: bold; font-size: 14px;">COMENTER PRO</div>
-                <div style="color: #bdc3c7; font-size: 10px; margin: 5px 0;" id="minimizedStatus">Lendo do caderno...</div>
+                <div style="color: #bdc3c7; font-size: 10px; margin: 5px 0;" id="minimizedStatus">Digitando lentamente...</div>
                 <button onclick="window.maximizePanel()" style="
                     background: #3498db; color: white; border: none; 
                     padding: 5px 10px; border-radius: 3px; cursor: pointer; 
@@ -286,17 +287,17 @@ Que vídeo incrível! Aprendi bastante com suas dicas 👍</textarea>
         }
     };
 
-    // ========== DIGITAÇÃO HUMANA REAL ==========
+    // ========== DIGITAÇÃO MUITO LENTA - HUMANA REAL ==========
     window.startComenterBot = async function() {
         if (window.comenterRunning) {
             updateStatus('⚠️ Bot já está rodando!', '#f39c12');
             return;
         }
 
-        const interval = parseInt(document.getElementById('comenterInterval').value) * 1000;
+        const interval = parseInt(document.getElementById('comenterInterval').value) * 60000; // Converter para minutos
         const messages = document.getElementById('comenterMessages').value.split('\n').filter(m => m.trim());
-        const humanType = document.getElementById('humanType').value;
-        const notebookSize = document.getElementById('notebookSize').value;
+        const typingSpeed = document.getElementById('typingSpeed').value;
+        const pauseFrequency = document.getElementById('pauseFrequency').value;
 
         if (messages.length === 0) {
             updateStatus('❌ Digite pelo menos uma mensagem!', '#e74c3c');
@@ -307,7 +308,7 @@ Que vídeo incrível! Aprendi bastante com suas dicas 👍</textarea>
         window.messageCount = 0;
 
         updateStatus(`🚀 Bot iniciado! ${messages.length} mensagens`, '#27ae60');
-        updateStatus('📖 Lendo do "caderno"...', '#3498db');
+        updateStatus('🐌 Digitando MUITO devagar...', '#3498db');
 
         let messageIndex = 0;
 
@@ -316,7 +317,7 @@ Que vídeo incrível! Aprendi bastante com suas dicas 👍</textarea>
 
             const message = messages[messageIndex % messages.length];
             
-            const success = await humanLikeTyping(message, humanType, notebookSize);
+            const success = await ultraSlowHumanTyping(message, typingSpeed, pauseFrequency);
 
             if (success) {
                 window.messageCount++;
@@ -350,8 +351,8 @@ Que vídeo incrível! Aprendi bastante com suas dicas 👍</textarea>
         }
     };
 
-    // ========== COMPORTAMENTO HUMANO REAL ==========
-    async function humanLikeTyping(fullMessage, humanType, notebookSize) {
+    // ========== DIGITAÇÃO ULTRA LENTA COMO HUMANO ==========
+    async function ultraSlowHumanTyping(message, speed, pauseFreq) {
         try {
             // 1. Encontrar campo
             const field = await findCommentField();
@@ -360,36 +361,63 @@ Que vídeo incrível! Aprendi bastante com suas dicas 👍</textarea>
                 return false;
             }
 
-            // 2. Preparar campo como humano
-            await humanFieldPreparation(field);
+            // 2. Preparação BEM lenta
+            await verySlowFieldPreparation(field);
             if (!window.comenterRunning) return false;
 
-            // 3. "LER DO CADERNO" E DIGITAR
-            updateStatus('👀 Lendo do "caderno"...', '#3498db');
-            await delay(1000 + Math.random() * 1000); // Tempo lendo
+            // 3. DIGITAÇÃO MUITO LENTA
+            updateStatus('🐌 Começando a digitar...', '#3498db');
+            await humanPause(2000, 4000); // Pausa antes de começar
 
-            const chunks = getNotebookChunks(fullMessage, notebookSize);
+            const words = message.split(' ');
             let currentText = '';
 
-            for (let chunkIndex = 0; chunkIndex < chunks.length; chunkIndex++) {
+            for (let wordIndex = 0; wordIndex < words.length; wordIndex++) {
                 if (!window.comenterRunning) return false;
 
-                const chunk = chunks[chunkIndex];
-                updateStatus(`📝 Lendo: "${chunk}"`, '#3498db');
+                const word = words[wordIndex];
                 
-                // Tempo "lendo" o pedaço do caderno
-                await delay(500 + Math.random() * 700);
+                // PAUSA ANTES DE CADA PALAVRA (humano pensando)
+                if (wordIndex > 0) {
+                    await pauseBetweenWords(pauseFreq);
+                }
 
-                // Digitar o chunk com erros humanos
-                const typedChunk = await typeWithHumanErrors(chunk, humanType, field, currentText);
-                currentText += typedChunk;
+                updateStatus(`📝 Escrevendo: "${word}"`, '#3498db');
 
-                // Olhar para o "caderno" de novo
-                if (chunkIndex < chunks.length - 1) {
-                    updateStatus('👀 Voltando a ler...', '#3498db');
-                    await delay(300 + Math.random() * 500);
+                // Digitar palavra letra por letra MUITO devagar
+                for (let i = 0; i < word.length; i++) {
+                    if (!window.comenterRunning) return false;
+
+                    const char = word[i];
+                    currentText += char;
+                    setFieldText(field, currentText);
+
+                    // DELAY MUITO LONGO entre letras
+                    await delayBetweenLetters(speed);
+
+                    // PAUSA OCASIONAL no meio da palavra (como humano distraído)
+                    if (i > 0 && Math.random() < 0.1) {
+                        updateStatus('💭 Pensando...', '#f39c12');
+                        await humanPause(800, 1500);
+                    }
+                }
+
+                // Espaço após palavra
+                if (wordIndex < words.length - 1) {
+                    currentText += ' ';
+                    setFieldText(field, currentText);
+                    await delay(200 + Math.random() * 200); // Delay para espaço
+                }
+
+                // PAUSA LONGA após algumas palavras (respirando/pensando)
+                if ((wordIndex + 1) % 3 === 0) {
+                    await longThinkingPause(pauseFreq);
                 }
             }
+
+            // PAUSA FINAL antes de enviar (revisando)
+            updateStatus('👀 Revisando o texto...', '#3498db');
+            await humanPause(3000, 6000);
 
             // 4. Enviar
             updateStatus('📤 Enviando...', '#3498db');
@@ -408,149 +436,88 @@ Que vídeo incrível! Aprendi bastante com suas dicas 👍</textarea>
         }
     }
 
-    function getNotebookChunks(text, size) {
-        // Divide o texto em "pedaços do caderno"
-        const words = text.split(' ');
-        let chunkSize;
-        
-        switch(size) {
-            case 'small': chunkSize = 2; break;
-            case 'medium': chunkSize = 4; break;
-            case 'large': chunkSize = 6; break;
-            default: chunkSize = 4;
+    async function delayBetweenLetters(speed) {
+        // DELAYS MUITO MAIS LONGOS entre letras
+        switch(speed) {
+            case 'verySlow':
+                await delay(200 + Math.random() * 200); // 200-400ms
+                break;
+            case 'slow':
+                await delay(150 + Math.random() * 150); // 150-300ms  
+                break;
+            case 'normal':
+                await delay(100 + Math.random() * 100); // 100-200ms
+                break;
+            default:
+                await delay(150 + Math.random() * 150);
         }
-
-        const chunks = [];
-        for (let i = 0; i < words.length; i += chunkSize) {
-            const chunk = words.slice(i, i + chunkSize).join(' ');
-            chunks.push(chunk);
-        }
-        
-        return chunks;
     }
 
-    async function typeWithHumanErrors(chunk, humanType, field, currentText) {
-        const words = chunk.split(' ');
-        let typedResult = '';
-        let errorStats = getErrorStats(humanType);
-
-        for (let wordIndex = 0; wordIndex < words.length; wordIndex++) {
-            if (!window.comenterRunning) return typedResult;
-
-            const word = words[wordIndex];
-            let typedWord = '';
-
-            // Digitar palavra com possíveis erros
-            for (let i = 0; i < word.length; i++) {
-                if (!window.comenterRunning) return typedResult;
-
-                let char = word[i];
-                
-                // Chance de erro de digitação
-                if (Math.random() < errorStats.mistakeChance) {
-                    char = getTypo(char);
-                    updateStatus('⌨️ Corrigindo erro...', '#f39c12');
-                    
-                    // Digitar caractere errado
-                    currentText += char;
-                    setFieldText(field, currentText);
-                    await delay(80 + Math.random() * 50);
-                    
-                    // Corrigir o erro (como humano faria)
-                    await delay(200 + Math.random() * 200);
-                    currentText = currentText.slice(0, -1); // Backspace
-                    setFieldText(field, currentText);
-                    await delay(100 + Math.random() * 50);
-                    
-                    // Digitar caractere correto
-                    char = word[i];
+    async function pauseBetweenWords(pauseFreq) {
+        // Pausas entre palavras
+        switch(pauseFreq) {
+            case 'frequent':
+                if (Math.random() < 0.7) { // 70% de chance de pausa
+                    await humanPause(500, 1200);
                 }
-
-                currentText += char;
-                typedWord += char;
-                setFieldText(field, currentText);
-                
-                // Delay entre letras (humano)
-                await delay(60 + Math.random() * 40);
-            }
-
-            typedResult += (wordIndex === 0 ? '' : ' ') + typedWord;
-
-            // Espaço entre palavras
-            if (wordIndex < words.length - 1) {
-                currentText += ' ';
-                setFieldText(field, currentText);
-                await delay(100 + Math.random() * 50);
-            }
-
-            // Pausa entre palavras (olhando para teclado/tela)
-            if (Math.random() < 0.3) {
-                await delay(200 + Math.random() * 300);
-            }
-        }
-
-        return typedResult;
-    }
-
-    function getErrorStats(humanType) {
-        switch(humanType) {
-            case 'beginner': 
-                return { mistakeChance: 0.08, correctionDelay: 300 };
-            case 'normal': 
-                return { mistakeChance: 0.04, correctionDelay: 200 };
-            case 'expert': 
-                return { mistakeChance: 0.02, correctionDelay: 150 };
-            default: 
-                return { mistakeChance: 0.04, correctionDelay: 200 };
+                break;
+            case 'normal':
+                if (Math.random() < 0.4) { // 40% de chance de pausa
+                    await humanPause(400, 800);
+                }
+                break;
+            case 'rare':
+                if (Math.random() < 0.2) { // 20% de chance de pausa
+                    await humanPause(300, 600);
+                }
+                break;
         }
     }
 
-    function getTypo(correctChar) {
-        // Gera erros de digitação realistas
-        const keyboard = {
-            'a': ['q', 's', 'z', 'w'],
-            'e': ['w', 'r', 'd', 's'],
-            'i': ['u', 'o', 'k', 'j'],
-            'o': ['i', 'p', 'l', 'k'],
-            's': ['a', 'd', 'w', 'x'],
-            'd': ['s', 'f', 'e', 'c'],
-            'f': ['d', 'g', 'r', 'v'],
-            'g': ['f', 'h', 't', 'b'],
-            'h': ['g', 'j', 'y', 'n'],
-            'j': ['h', 'k', 'u', 'm'],
-            'k': ['j', 'l', 'i', ','],
-            'l': ['k', 'ç', 'o', '.'],
-        };
-
-        if (keyboard[correctChar]) {
-            return keyboard[correctChar][Math.floor(Math.random() * keyboard[correctChar].length)];
+    async function longThinkingPause(pauseFreq) {
+        // Pausas longas para "pensar/respirar"
+        switch(pauseFreq) {
+            case 'frequent':
+                updateStatus('💭 Pensando no que escrever...', '#f39c12');
+                await humanPause(2000, 4000);
+                break;
+            case 'normal':
+                if (Math.random() < 0.6) {
+                    updateStatus('💭 Pensando...', '#f39c12');
+                    await humanPause(1500, 3000);
+                }
+                break;
+            case 'rare':
+                if (Math.random() < 0.3) {
+                    updateStatus('💭 Pensando...', '#f39c12');
+                    await humanPause(1000, 2000);
+                }
+                break;
         }
-        return correctChar; // Se não encontrar, mantém o caractere
     }
 
-    async function humanFieldPreparation(field) {
-        // Comportamento humano ao preparar campo
+    async function verySlowFieldPreparation(field) {
+        // Preparação MUITO lenta do campo
         updateStatus('👆 Clicando no campo...', '#3498db');
         
-        // Clicar de forma humana (não precisa ser exato)
+        await humanPause(1000, 2000);
         field.click();
-        await delay(600 + Math.random() * 400);
+        await humanPause(800, 1500);
         
-        // Focar no campo
         field.focus();
-        await delay(400 + Math.random() * 300);
+        await humanPause(600, 1200);
         
-        // Limpar campo se necessário (como humano faria)
+        // Limpar campo BEM devagar (como humano)
         const currentText = getFieldText(field);
         if (currentText && currentText.length > 0) {
-            updateStatus('⌫ Limpando campo...', '#3498db');
-            // Simular humano pressionando Backspace
+            updateStatus('⌫ Apagando texto anterior...', '#3498db');
+            // Simular humano apagando devagar
             for (let i = 0; i < currentText.length; i++) {
                 if (!window.comenterRunning) return;
-                await delay(40 + Math.random() * 30);
+                await delay(80 + Math.random() * 60); // Backspace lento
             }
             setFieldText(field, '');
-            await delay(300 + Math.random() * 200);
+            await humanPause(500, 1000);
         }
     }
 
@@ -613,9 +580,9 @@ Que vídeo incrível! Aprendi bastante com suas dicas 👍</textarea>
                 const buttons = document.querySelectorAll(selector);
                 for (const button of buttons) {
                     if (isVisible(button) && !button.disabled) {
-                        await delay(300 + Math.random() * 200);
+                        await humanPause(500, 1000);
                         button.click();
-                        await delay(1500);
+                        await humanPause(1500, 3000);
                         return true;
                     }
                 }
@@ -628,7 +595,7 @@ Que vídeo incrível! Aprendi bastante com suas dicas 👍</textarea>
 
     async function pressEnter(field) {
         try {
-            await delay(500 + Math.random() * 300);
+            await humanPause(800, 1500);
             
             const enterEvent = new KeyboardEvent('keydown', {
                 key: 'Enter',
@@ -680,6 +647,11 @@ Que vídeo incrível! Aprendi bastante com suas dicas 👍</textarea>
         return new Promise(resolve => setTimeout(resolve, ms));
     }
 
+    async function humanPause(min, max) {
+        const pauseTime = min + Math.random() * (max - min);
+        await delay(pauseTime);
+    }
+
     function updateStatus(message, color = '#3498db') {
         const statusEl = document.getElementById('comenterStatus');
         if (statusEl) {
@@ -709,5 +681,5 @@ Que vídeo incrível! Aprendi bastante com suas dicas 👍</textarea>
         document.getElementById('closeBtn').onclick = window.closePanel;
     }, 100);
 
-    console.log('🚀 COMENTER PRO - Digitação humana real ativada!');
+    console.log('🚀 COMENTER PRO - Velocidade humana MUITO lenta ativada!');
 })();
