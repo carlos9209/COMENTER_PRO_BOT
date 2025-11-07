@@ -57,7 +57,7 @@
                     <div style="font-size: 20px; margin-right: 10px;">💬</div>
                     <div>
                         <div style="color: #3498db; font-weight: bold; font-size: 16px;">COMENTER PRO</div>
-                        <div style="color: #bdc3c7; font-size: 10px;">Velocidade humana REAL</div>
+                        <div style="color: #bdc3c7; font-size: 10px;">TECLADO REAL simulado</div>
                     </div>
                 </div>
                 <div style="display: flex; gap: 5px;">
@@ -84,41 +84,51 @@
             
             <div id="panelContent">
                 <div style="background: #34495e; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
-                    <h3 style="color: #3498db; margin: 0 0 10px 0; font-size: 14px;">⚙️ Velocidade Humana</h3>
+                    <h3 style="color: #3498db; margin: 0 0 10px 0; font-size: 14px;">⚙️ Teclado Real</h3>
                     
                     <div style="margin: 10px 0;">
-                        <label style="display: block; margin-bottom: 5px; font-size: 12px;">⏱️ Intervalo entre comentários (minutos):</label>
-                        <input type="number" id="comenterInterval" value="2" min="1" max="10" 
+                        <label style="display: block; margin-bottom: 5px; font-size: 12px;">⏱️ Intervalo (minutos):</label>
+                        <input type="number" id="comenterInterval" value="3" min="2" max="10" 
                             style="width: 100%; padding: 8px; border: none; border-radius: 5px; background: #2c3e50; color: white;">
-                        <div style="color: #bdc3c7; font-size: 10px; margin-top: 3px;">💡 Use 2+ minutos para parecer mais humano</div>
                     </div>
                     
                     <div style="margin: 10px 0;">
-                        <label style="display: block; margin-bottom: 5px; font-size: 12px;">🐌 Velocidade de digitação:</label>
-                        <select id="typingSpeed" style="width: 100%; padding: 8px; border: none; border-radius: 5px; background: #2c3e50; color: white;">
-                            <option value="verySlow">Muito Lenta (200-400ms/letra)</option>
-                            <option value="slow" selected>Lenta (150-300ms/letra)</option>
-                            <option value="normal">Normal (100-200ms/letra)</option>
+                        <label style="display: block; margin-bottom: 5px; font-size: 12px;">⌨️ Simulação de teclado:</label>
+                        <select id="keyboardSimulation" style="width: 100%; padding: 8px; border: none; border-radius: 5px; background: #2c3e50; color: white;">
+                            <option value="full">Completa (recomendado)</option>
+                            <option value="basic">Básica</option>
                         </select>
                     </div>
 
                     <div style="margin: 10px 0;">
-                        <label style="display: block; margin-bottom: 5px; font-size: 12px;">💭 Pausas humanas:</label>
-                        <select id="pauseFrequency" style="width: 100%; padding: 8px; border: none; border-radius: 5px; background: #2c3e50; color: white;">
-                            <option value="frequent">Frequentes (como humano cansado)</option>
-                            <option value="normal" selected>Normais (pensando no que escrever)</option>
-                            <option value="rare">Raras (digitador experiente)</option>
-                        </select>
+                        <label style="display: block; margin-bottom: 5px; font-size: 12px;">🎯 Eventos de teclado:</label>
+                        <div style="display: flex; flex-wrap: wrap; gap: 5px; margin-top: 5px;">
+                            <label style="font-size: 11px; display: flex; align-items: center;">
+                                <input type="checkbox" id="eventKeydown" checked> KeyDown
+                            </label>
+                            <label style="font-size: 11px; display: flex; align-items: center;">
+                                <input type="checkbox" id="eventKeypress" checked> KeyPress
+                            </label>
+                            <label style="font-size: 11px; display: flex; align-items: center;">
+                                <input type="checkbox" id="eventKeyup" checked> KeyUp
+                            </label>
+                            <label style="font-size: 11px; display: flex; align-items: center;">
+                                <input type="checkbox" id="eventInput" checked> Input
+                            </label>
+                            <label style="font-size: 11px; display: flex; align-items: center;">
+                                <input type="checkbox" id="eventChange" checked> Change
+                            </label>
+                        </div>
                     </div>
                 </div>
 
                 <div style="background: #34495e; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
                     <h3 style="color: #3498db; margin: 0 0 10px 0; font-size: 14px;">💬 Mensagens</h3>
                     <textarea id="comenterMessages" rows="4" placeholder="Digite cada mensagem em uma linha"
-                        style="width: 100%; padding: 8px; border: none; border-radius: 5px; background: #2c3e50; color: white; resize: vertical; font-size: 12px;">Gostei muito do conteúdo! Parabéns 👏
-Excelente explicação, obrigado! 😊
-Vídeo muito bom, aprendi bastante! 👍</textarea>
-                    <div style="color: #bdc3c7; font-size: 10px; margin-top: 5px;">💡 Mensagens curtas funcionam melhor</div>
+                        style="width: 100%; padding: 8px; border: none; border-radius: 5px; background: #2c3e50; color: white; resize: vertical; font-size: 12px;">Gostei muito! Parabéns 👏
+Excelente conteúdo! Obrigado 😊
+Muito bom! Aprendi bastante 👍</textarea>
+                    <div style="color: #bdc3c7; font-size: 10px; margin-top: 5px;">💡 O bot vai simular TECLADO REAL</div>
                 </div>
 
                 <div style="display: flex; gap: 10px; margin-bottom: 15px;">
@@ -137,19 +147,19 @@ Vídeo muito bom, aprendi bastante! 👍</textarea>
                 <div id="comenterStatus" style="
                     padding: 10px; border-radius: 5px; background: #34495e; 
                     font-size: 11px; text-align: center; min-height: 20px;">
-                    🐌 Velocidade humana lenta ativada
+                    ⌨️ Teclado real simulado - PRONTO
                 </div>
 
                 <div style="text-align: center; margin-top: 15px; padding-top: 10px; border-top: 1px solid #34495e;">
                     <p style="color: #7f8c8d; font-size: 10px; margin: 0;">
-                        F2: Ocultar/Mostrar | Digitação MUITO lenta como humano
+                        F2: Ocultar/Mostrar | Eventos REAIS de teclado
                     </p>
                 </div>
             </div>
 
             <div id="minimizedPanel" style="display: none; text-align: center; padding: 10px;">
                 <div style="color: #3498db; font-weight: bold; font-size: 14px;">COMENTER PRO</div>
-                <div style="color: #bdc3c7; font-size: 10px; margin: 5px 0;" id="minimizedStatus">Digitando lentamente...</div>
+                <div style="color: #bdc3c7; font-size: 10px; margin: 5px 0;" id="minimizedStatus">Teclado ativo</div>
                 <button onclick="window.maximizePanel()" style="
                     background: #3498db; color: white; border: none; 
                     padding: 5px 10px; border-radius: 3px; cursor: pointer; 
@@ -287,17 +297,16 @@ Vídeo muito bom, aprendi bastante! 👍</textarea>
         }
     };
 
-    // ========== DIGITAÇÃO MUITO LENTA - HUMANA REAL ==========
+    // ========== SIMULAÇÃO DE TECLADO REAL ==========
     window.startComenterBot = async function() {
         if (window.comenterRunning) {
             updateStatus('⚠️ Bot já está rodando!', '#f39c12');
             return;
         }
 
-        const interval = parseInt(document.getElementById('comenterInterval').value) * 60000; // Converter para minutos
+        const interval = parseInt(document.getElementById('comenterInterval').value) * 60000;
         const messages = document.getElementById('comenterMessages').value.split('\n').filter(m => m.trim());
-        const typingSpeed = document.getElementById('typingSpeed').value;
-        const pauseFrequency = document.getElementById('pauseFrequency').value;
+        const keyboardSimulation = document.getElementById('keyboardSimulation').value;
 
         if (messages.length === 0) {
             updateStatus('❌ Digite pelo menos uma mensagem!', '#e74c3c');
@@ -308,7 +317,7 @@ Vídeo muito bom, aprendi bastante! 👍</textarea>
         window.messageCount = 0;
 
         updateStatus(`🚀 Bot iniciado! ${messages.length} mensagens`, '#27ae60');
-        updateStatus('🐌 Digitando MUITO devagar...', '#3498db');
+        updateStatus('⌨️ Simulando TECLADO REAL...', '#3498db');
 
         let messageIndex = 0;
 
@@ -317,7 +326,7 @@ Vídeo muito bom, aprendi bastante! 👍</textarea>
 
             const message = messages[messageIndex % messages.length];
             
-            const success = await ultraSlowHumanTyping(message, typingSpeed, pauseFrequency);
+            const success = await realKeyboardTyping(message, keyboardSimulation);
 
             if (success) {
                 window.messageCount++;
@@ -351,8 +360,8 @@ Vídeo muito bom, aprendi bastante! 👍</textarea>
         }
     };
 
-    // ========== DIGITAÇÃO ULTRA LENTA COMO HUMANO ==========
-    async function ultraSlowHumanTyping(message, speed, pauseFreq) {
+    // ========== TECLADO REAL - EVENTOS COMPLETOS ==========
+    async function realKeyboardTyping(message, simulationType) {
         try {
             // 1. Encontrar campo
             const field = await findCommentField();
@@ -361,67 +370,37 @@ Vídeo muito bom, aprendi bastante! 👍</textarea>
                 return false;
             }
 
-            // 2. Preparação BEM lenta
-            await verySlowFieldPreparation(field);
+            // 2. Foco real no campo
+            await realFocus(field);
             if (!window.comenterRunning) return false;
 
-            // 3. DIGITAÇÃO MUITO LENTA
-            updateStatus('🐌 Começando a digitar...', '#3498db');
-            await humanPause(2000, 4000); // Pausa antes de começar
+            // 3. SIMULAR TECLADO REAL letra por letra
+            updateStatus('⌨️ Teclando como HUMANO...', '#3498db');
+            await delay(1000);
 
-            const words = message.split(' ');
-            let currentText = '';
-
-            for (let wordIndex = 0; wordIndex < words.length; wordIndex++) {
+            const characters = message.split('');
+            
+            for (let i = 0; i < characters.length; i++) {
                 if (!window.comenterRunning) return false;
 
-                const word = words[wordIndex];
+                const char = characters[i];
                 
-                // PAUSA ANTES DE CADA PALAVRA (humano pensando)
-                if (wordIndex > 0) {
-                    await pauseBetweenWords(pauseFreq);
-                }
-
-                updateStatus(`📝 Escrevendo: "${word}"`, '#3498db');
-
-                // Digitar palavra letra por letra MUITO devagar
-                for (let i = 0; i < word.length; i++) {
-                    if (!window.comenterRunning) return false;
-
-                    const char = word[i];
-                    currentText += char;
-                    setFieldText(field, currentText);
-
-                    // DELAY MUITO LONGO entre letras
-                    await delayBetweenLetters(speed);
-
-                    // PAUSA OCASIONAL no meio da palavra (como humano distraído)
-                    if (i > 0 && Math.random() < 0.1) {
-                        updateStatus('💭 Pensando...', '#f39c12');
-                        await humanPause(800, 1500);
-                    }
-                }
-
-                // Espaço após palavra
-                if (wordIndex < words.length - 1) {
-                    currentText += ' ';
-                    setFieldText(field, currentText);
-                    await delay(200 + Math.random() * 200); // Delay para espaço
-                }
-
-                // PAUSA LONGA após algumas palavras (respirando/pensando)
-                if ((wordIndex + 1) % 3 === 0) {
-                    await longThinkingPause(pauseFreq);
+                // SIMULAR PRESSIONAR TECLA (como teclado real)
+                await simulateKeyPress(field, char);
+                
+                // Pausa entre letras (como humano)
+                await delay(120 + Math.random() * 80);
+                
+                // Pausa ocasional (respirando/pensando)
+                if (i > 0 && i % 5 === 0 && Math.random() < 0.3) {
+                    updateStatus('💭 Pensando...', '#f39c12');
+                    await delay(800 + Math.random() * 400);
                 }
             }
 
-            // PAUSA FINAL antes de enviar (revisando)
-            updateStatus('👀 Revisando o texto...', '#3498db');
-            await humanPause(3000, 6000);
-
             // 4. Enviar
             updateStatus('📤 Enviando...', '#3498db');
-            const sent = await humanSend(field);
+            const sent = await realSend(field);
             
             if (sent) {
                 updateStatus('✅ Comentário enviado!', '#27ae60');
@@ -436,99 +415,289 @@ Vídeo muito bom, aprendi bastante! 👍</textarea>
         }
     }
 
-    async function delayBetweenLetters(speed) {
-        // DELAYS MUITO MAIS LONGOS entre letras
-        switch(speed) {
-            case 'verySlow':
-                await delay(200 + Math.random() * 200); // 200-400ms
-                break;
-            case 'slow':
-                await delay(150 + Math.random() * 150); // 150-300ms  
-                break;
-            case 'normal':
-                await delay(100 + Math.random() * 100); // 100-200ms
-                break;
-            default:
-                await delay(150 + Math.random() * 150);
-        }
-    }
-
-    async function pauseBetweenWords(pauseFreq) {
-        // Pausas entre palavras
-        switch(pauseFreq) {
-            case 'frequent':
-                if (Math.random() < 0.7) { // 70% de chance de pausa
-                    await humanPause(500, 1200);
-                }
-                break;
-            case 'normal':
-                if (Math.random() < 0.4) { // 40% de chance de pausa
-                    await humanPause(400, 800);
-                }
-                break;
-            case 'rare':
-                if (Math.random() < 0.2) { // 20% de chance de pausa
-                    await humanPause(300, 600);
-                }
-                break;
-        }
-    }
-
-    async function longThinkingPause(pauseFreq) {
-        // Pausas longas para "pensar/respirar"
-        switch(pauseFreq) {
-            case 'frequent':
-                updateStatus('💭 Pensando no que escrever...', '#f39c12');
-                await humanPause(2000, 4000);
-                break;
-            case 'normal':
-                if (Math.random() < 0.6) {
-                    updateStatus('💭 Pensando...', '#f39c12');
-                    await humanPause(1500, 3000);
-                }
-                break;
-            case 'rare':
-                if (Math.random() < 0.3) {
-                    updateStatus('💭 Pensando...', '#f39c12');
-                    await humanPause(1000, 2000);
-                }
-                break;
-        }
-    }
-
-    async function verySlowFieldPreparation(field) {
-        // Preparação MUITO lenta do campo
-        updateStatus('👆 Clicando no campo...', '#3498db');
+    async function simulateKeyPress(field, char) {
+        const key = char;
+        const code = getKeyCode(char);
+        const keyCode = getKeyCodeValue(char);
+        const which = keyCode;
         
-        await humanPause(1000, 2000);
-        field.click();
-        await humanPause(800, 1500);
+        // OBTER ELEMENTO ATIVO (pode mudar durante a digitação)
+        const activeElement = document.activeElement;
+        if (!activeElement) return;
         
+        // SEQUÊNCIA COMPLETA DE EVENTOS DE TECLADO
+        if (document.getElementById('eventKeydown').checked) {
+            const keyDownEvent = new KeyboardEvent('keydown', {
+                key: key,
+                code: code,
+                keyCode: keyCode,
+                which: which,
+                bubbles: true,
+                cancelable: true,
+                composed: true,
+                charCode: 0,
+                keyIdentifier: key,
+                location: 0
+            });
+            activeElement.dispatchEvent(keyDownEvent);
+            await delay(1);
+        }
+
+        if (document.getElementById('eventKeypress').checked) {
+            const keyPressEvent = new KeyboardEvent('keypress', {
+                key: key,
+                code: code,
+                keyCode: keyCode,
+                which: which,
+                bubbles: true,
+                cancelable: true,
+                composed: true,
+                charCode: key.charCodeAt(0),
+                keyIdentifier: key,
+                location: 0
+            });
+            activeElement.dispatchEvent(keyPressEvent);
+            await delay(1);
+        }
+
+        // ATUALIZAR VALOR DO CAMPO (como o navegador faria)
+        if (activeElement.tagName === 'TEXTAREA' || activeElement.tagName === 'INPUT') {
+            activeElement.value += char;
+        } else if (activeElement.isContentEditable) {
+            activeElement.textContent += char;
+        }
+
+        if (document.getElementById('eventInput').checked) {
+            const inputEvent = new Event('input', {
+                bubbles: true,
+                cancelable: true,
+                composed: true
+            });
+            activeElement.dispatchEvent(inputEvent);
+            await delay(1);
+        }
+
+        if (document.getElementById('eventKeyup').checked) {
+            const keyUpEvent = new KeyboardEvent('keyup', {
+                key: key,
+                code: code,
+                keyCode: keyCode,
+                which: which,
+                bubbles: true,
+                cancelable: true,
+                composed: true,
+                charCode: 0,
+                keyIdentifier: key,
+                location: 0
+            });
+            activeElement.dispatchEvent(keyUpEvent);
+            await delay(1);
+        }
+
+        if (document.getElementById('eventChange').checked) {
+            const changeEvent = new Event('change', {
+                bubbles: true,
+                cancelable: true,
+                composed: true
+            });
+            activeElement.dispatchEvent(changeEvent);
+            await delay(1);
+        }
+
+        // EVENTOS ADICIONAIS PARA SITES MAIS RESTRITIVOS
+        if (Math.random() < 0.2) { // 20% de chance
+            const compositionStart = new CompositionEvent('compositionstart', {
+                bubbles: true,
+                cancelable: true,
+                composed: true,
+                data: char
+            });
+            activeElement.dispatchEvent(compositionStart);
+            
+            await delay(2);
+            
+            const compositionEnd = new CompositionEvent('compositionend', {
+                bubbles: true,
+                cancelable: true,
+                composed: true,
+                data: char
+            });
+            activeElement.dispatchEvent(compositionEnd);
+        }
+    }
+
+    function getKeyCode(char) {
+        // Mapear caracteres para códigos de tecla
+        const keyMap = {
+            ' ': 'Space',
+            '!': 'Digit1',
+            '@': 'Digit2',
+            '#': 'Digit3',
+            '$': 'Digit4',
+            '%': 'Digit5',
+            '^': 'Digit6',
+            '&': 'Digit7',
+            '*': 'Digit8',
+            '(': 'Digit9',
+            ')': 'Digit0',
+            '-': 'Minus',
+            '_': 'Minus',
+            '=': 'Equal',
+            '+': 'Equal',
+            '[': 'BracketLeft',
+            ']': 'BracketRight',
+            '{': 'BracketLeft',
+            '}': 'BracketRight',
+            ';': 'Semicolon',
+            ':': 'Semicolon',
+            "'": 'Quote',
+            '"': 'Quote',
+            '\\': 'Backslash',
+            '|': 'Backslash',
+            ',': 'Comma',
+            '<': 'Comma',
+            '.': 'Period',
+            '>': 'Period',
+            '/': 'Slash',
+            '?': 'Slash',
+            '`': 'Backquote',
+            '~': 'Backquote'
+        };
+
+        if (keyMap[char]) {
+            return keyMap[char];
+        }
+
+        if (/[a-z]/.test(char)) {
+            return 'Key' + char.toUpperCase();
+        }
+
+        if (/[A-Z]/.test(char)) {
+            return 'Key' + char.toUpperCase();
+        }
+
+        if (/[0-9]/.test(char)) {
+            return 'Digit' + char;
+        }
+
+        return 'Key' + char.toUpperCase();
+    }
+
+    function getKeyCodeValue(char) {
+        // Retorna keyCode tradicional
+        return char.charCodeAt(0);
+    }
+
+    async function realFocus(field) {
+        // Foco REAL no campo com eventos completos
+        updateStatus('🎯 Focando no campo...', '#3498db');
+        
+        // Evento de mouse down
+        const mouseDown = new MouseEvent('mousedown', {
+            bubbles: true,
+            cancelable: true,
+            composed: true,
+            clientX: field.getBoundingClientRect().left + 10,
+            clientY: field.getBoundingClientRect().top + 10
+        });
+        field.dispatchEvent(mouseDown);
+        await delay(50);
+
+        // Evento de focus
+        const focusEvent = new FocusEvent('focus', {
+            bubbles: true,
+            cancelable: true,
+            composed: true
+        });
+        field.dispatchEvent(focusEvent);
+        await delay(50);
+
+        // Evento de mouse up
+        const mouseUp = new MouseEvent('mouseup', {
+            bubbles: true,
+            cancelable: true,
+            composed: true
+        });
+        field.dispatchEvent(mouseUp);
+        await delay(50);
+
+        // Evento de click
+        const clickEvent = new MouseEvent('click', {
+            bubbles: true,
+            cancelable: true,
+            composed: true
+        });
+        field.dispatchEvent(clickEvent);
+        await delay(100);
+
+        // Focar programaticamente
         field.focus();
-        await humanPause(600, 1200);
-        
-        // Limpar campo BEM devagar (como humano)
-        const currentText = getFieldText(field);
-        if (currentText && currentText.length > 0) {
-            updateStatus('⌫ Apagando texto anterior...', '#3498db');
-            // Simular humano apagando devagar
-            for (let i = 0; i < currentText.length; i++) {
-                if (!window.comenterRunning) return;
-                await delay(80 + Math.random() * 60); // Backspace lento
-            }
-            setFieldText(field, '');
-            await humanPause(500, 1000);
-        }
+        await delay(200);
+
+        // Evento de focusin
+        const focusIn = new FocusEvent('focusin', {
+            bubbles: true,
+            cancelable: true,
+            composed: true
+        });
+        field.dispatchEvent(focusIn);
+        await delay(100);
     }
 
-    async function humanSend(field) {
-        // Tentar botão de enviar
+    async function realSend(field) {
+        // Tentar botão primeiro
         const buttonSent = await findAndClickSendButton();
         if (buttonSent) return true;
         
-        // Tentar Enter
-        const enterSent = await pressEnter(field);
-        return enterSent;
+        // Se não, simular ENTER real
+        return await simulateEnterKey(field);
+    }
+
+    async function simulateEnterKey(field) {
+        try {
+            await delay(500);
+            
+            // Sequência completa de eventos ENTER
+            const enterDown = new KeyboardEvent('keydown', {
+                key: 'Enter',
+                code: 'Enter',
+                keyCode: 13,
+                which: 13,
+                bubbles: true,
+                cancelable: true,
+                composed: true
+            });
+            field.dispatchEvent(enterDown);
+            await delay(10);
+
+            const enterPress = new KeyboardEvent('keypress', {
+                key: 'Enter',
+                code: 'Enter',
+                keyCode: 13,
+                which: 13,
+                bubbles: true,
+                cancelable: true,
+                composed: true
+            });
+            field.dispatchEvent(enterPress);
+            await delay(10);
+
+            const enterUp = new KeyboardEvent('keyup', {
+                key: 'Enter',
+                code: 'Enter',
+                keyCode: 13,
+                which: 13,
+                bubbles: true,
+                cancelable: true,
+                composed: true
+            });
+            field.dispatchEvent(enterUp);
+            await delay(10);
+
+            return true;
+        } catch (error) {
+            return false;
+        }
     }
 
     // ========== FUNÇÕES AUXILIARES ==========
@@ -580,9 +749,19 @@ Vídeo muito bom, aprendi bastante! 👍</textarea>
                 const buttons = document.querySelectorAll(selector);
                 for (const button of buttons) {
                     if (isVisible(button) && !button.disabled) {
-                        await humanPause(500, 1000);
-                        button.click();
-                        await humanPause(1500, 3000);
+                        // Simular click real
+                        const mouseDown = new MouseEvent('mousedown', { bubbles: true });
+                        button.dispatchEvent(mouseDown);
+                        await delay(50);
+                        
+                        const mouseUp = new MouseEvent('mouseup', { bubbles: true });
+                        button.dispatchEvent(mouseUp);
+                        await delay(50);
+                        
+                        const click = new MouseEvent('click', { bubbles: true });
+                        button.dispatchEvent(click);
+                        await delay(1000);
+                        
                         return true;
                     }
                 }
@@ -591,45 +770,6 @@ Vídeo muito bom, aprendi bastante! 👍</textarea>
             }
         }
         return false;
-    }
-
-    async function pressEnter(field) {
-        try {
-            await humanPause(800, 1500);
-            
-            const enterEvent = new KeyboardEvent('keydown', {
-                key: 'Enter',
-                code: 'Enter',
-                keyCode: 13,
-                which: 13,
-                bubbles: true
-            });
-            
-            field.dispatchEvent(enterEvent);
-            
-            return true;
-        } catch (error) {
-            return false;
-        }
-    }
-
-    function setFieldText(field, text) {
-        if (field.tagName === 'TEXTAREA' || field.tagName === 'INPUT') {
-            field.value = text;
-        } else {
-            field.textContent = text;
-        }
-        
-        const inputEvent = new Event('input', { bubbles: true });
-        field.dispatchEvent(inputEvent);
-    }
-
-    function getFieldText(field) {
-        if (field.tagName === 'TEXTAREA' || field.tagName === 'INPUT') {
-            return field.value;
-        } else {
-            return field.textContent || field.innerText;
-        }
     }
 
     function isEditableElement(element) {
@@ -645,11 +785,6 @@ Vídeo muito bom, aprendi bastante! 👍</textarea>
 
     function delay(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
-    }
-
-    async function humanPause(min, max) {
-        const pauseTime = min + Math.random() * (max - min);
-        await delay(pauseTime);
     }
 
     function updateStatus(message, color = '#3498db') {
@@ -681,5 +816,5 @@ Vídeo muito bom, aprendi bastante! 👍</textarea>
         document.getElementById('closeBtn').onclick = window.closePanel;
     }, 100);
 
-    console.log('🚀 COMENTER PRO - Velocidade humana MUITO lenta ativada!');
+    console.log('🚀 COMENTER PRO - Teclado REAL simulado!');
 })();
