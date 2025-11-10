@@ -1,4 +1,4 @@
-// COMENTER PRO BOT - Versão SUPER SIMPLES
+// COMENTER PRO BOT - Versão SUPER SIMPLES CORRIGIDA
 // GitHub: https://ratonixxx.github.io/COMENTER_PRO_BOT
 
 (function() {
@@ -57,7 +57,7 @@
                     <div style="font-size: 20px; margin-right: 10px;">💬</div>
                     <div>
                         <div style="color: #3498db; font-weight: bold; font-size: 16px;">COMENTER PRO</div>
-                        <div style="color: #bdc3c7; font-size: 10px;">TEXTO EXATO - SEM MISTURAS</div>
+                        <div style="color: #bdc3c7; font-size: 10px;">TEXTO EXATO - SEM MISTURAS - CORRIGIDO</div>
                     </div>
                 </div>
                 <div style="display: flex; gap: 5px;">
@@ -138,19 +138,19 @@ Mensagem simples</textarea>
                 <div id="comenterStatus" style="
                     padding: 10px; border-radius: 5px; background: #34495e; 
                     font-size: 11px; text-align: center; min-height: 20px;">
-                    ✅ Texto EXATO - PRONTO
+                    ✅ Texto EXATO - PRONTO - CORRIGIDO
                 </div>
 
                 <div style="text-align: center; margin-top: 15px; padding-top: 10px; border-top: 1px solid #34495e;">
                     <p style="color: #7f8c8d; font-size: 10px; margin: 0;">
-                        F2: Ocultar/Mostrar | SEM MISTURAS
+                        F2: Ocultar/Mostrar | SEM MISTURAS | TEXTO COMPLETO
                     </p>
                 </div>
             </div>
 
             <div id="minimizedPanel" style="display: none; text-align: center; padding: 10px;">
                 <div style="color: #3498db; font-weight: bold; font-size: 14px;">COMENTER PRO</div>
-                <div style="color: #bdc3c7; font-size: 10px; margin: 5px 0;" id="minimizedStatus">Texto exato</div>
+                <div style="color: #bdc3c7; font-size: 10px; margin: 5px 0;" id="minimizedStatus">Texto exato corrigido</div>
                 <button onclick="window.maximizePanel()" style="
                     background: #3498db; color: white; border: none; 
                     padding: 5px 10px; border-radius: 3px; cursor: pointer; 
@@ -288,7 +288,7 @@ Mensagem simples</textarea>
         }
     };
 
-    // ========== SISTEMA DE TEXTO EXATO ==========
+    // ========== SISTEMA DE TEXTO EXATO CORRIGIDO ==========
     window.startComenterBot = async function() {
         if (window.comenterRunning) {
             updateStatus('⚠️ Bot já está rodando!', '#f39c12');
@@ -327,6 +327,8 @@ Mensagem simples</textarea>
                         minimizedText.textContent = `${window.messageCount} enviados`;
                     }
                 }
+            } else {
+                updateStatus(`❌ Falha no comentário ${messageIndex + 1}`, '#e74c3c');
             }
 
             messageIndex++;
@@ -349,10 +351,10 @@ Mensagem simples</textarea>
         }
     };
 
-    // ========== INSERÇÃO DE TEXTO EXATO ==========
+    // ========== INSERÇÃO DE TEXTO EXATO CORRIGIDA ==========
     async function exactTextInsert(message) {
         try {
-            console.log('=== INICIANDO INSERÇÃO EXATA ===');
+            console.log('=== INICIANDO INSERÇÃO EXATA CORRIGIDA ===');
             console.log('Mensagem original:', message);
             
             // 1. Encontrar campo
@@ -362,59 +364,63 @@ Mensagem simples</textarea>
                 return false;
             }
 
-            // 2. Foco BÁSICO
+            // 2. Foco COMPLETO no campo
             field.focus();
-            await delay(200);
+            field.click(); // Clica também para garantir foco
+            await delay(300);
 
-            // 3. LIMPEZA COMPLETA
+            // 3. LIMPEZA COMPLETA E CORRETA
             console.log('Limpando campo...');
             if (field.tagName === 'TEXTAREA' || field.tagName === 'INPUT') {
-                field.value = '';
+                // Método correto para limpar
+                field.select(); // Seleciona todo o texto
+                document.execCommand('delete'); // Deleta seleção
+                field.value = ''; // Garante que está vazio
+                
+                // Dispara eventos de limpeza
+                field.dispatchEvent(new Event('input', { bubbles: true }));
+                field.dispatchEvent(new Event('change', { bubbles: true }));
             } else if (field.isContentEditable) {
+                // Para campos contenteditable
                 field.textContent = '';
-            }
-            await delay(100);
-
-            // 4. VERIFICAR se campo está VAZIO
-            const currentText = getFieldText(field);
-            if (currentText.length > 0) {
-                console.log('Campo não está vazio, limpando novamente...');
-                if (field.tagName === 'TEXTAREA' || field.tagName === 'INPUT') {
-                    field.value = '';
-                } else if (field.isContentEditable) {
-                    field.textContent = '';
-                }
-                await delay(100);
-            }
-
-            // 5. INSERIR TEXTO EXATO - UMA ÚNICA VEZ
-            console.log('Inserindo texto EXATO...');
-            if (field.tagName === 'TEXTAREA' || field.tagName === 'INPUT') {
-                field.value = message; // ⬅️ APENAS ESTA LINHA INSERE O TEXTO
-            } else if (field.isContentEditable) {
-                field.textContent = message; // ⬅️ APENAS ESTA LINHA INSERE O TEXTO
+                field.innerHTML = ''; // Limpa HTML também
             }
             
-            await delay(100);
+            await delay(200);
 
-            // 6. VERIFICAR se o texto foi inserido CORRETAMENTE
-            const insertedText = getFieldText(field);
-            console.log('Texto inserido:', insertedText);
+            // 4. INSERIR TEXTO EXATO - MÚLTIPLOS MÉTODOS
+            console.log('Inserindo texto EXATO...');
+            
+            let insertionSuccess = false;
+            
+            // Tenta método principal primeiro
+            insertionSuccess = await insertTextMethod1(field, message);
+            
+            // Se falhar, tenta método alternativo
+            if (!insertionSuccess) {
+                console.log('Método 1 falhou, tentando método 2...');
+                insertionSuccess = await insertTextMethod2(field, message);
+            }
+            
+            // Se ainda falhar, tenta digitação
+            if (!insertionSuccess) {
+                console.log('Método 2 falhou, tentando digitação...');
+                insertionSuccess = await simulateTyping(field, message);
+            }
+
+            // 5. VERIFICAÇÃO FINAL
+            const finalText = getFieldText(field);
+            console.log('Texto final inserido:', finalText);
             console.log('Texto esperado:', message);
             
-            if (insertedText !== message) {
-                console.log('❌ Texto diferente! Corrigindo...');
-                if (field.tagName === 'TEXTAREA' || field.tagName === 'INPUT') {
-                    field.value = message;
-                } else if (field.isContentEditable) {
-                    field.textContent = message;
-                }
-                await delay(100);
+            if (finalText !== message) {
+                console.log('❌ Falha na inserção!');
+                return false;
             }
 
-            // 7. Enviar
+            // 6. Enviar
             console.log('📤 Enviando comentário...');
-            const sent = await basicSend(field);
+            const sent = await advancedSend(field);
             
             if (sent) {
                 console.log('✅ Comentário enviado com sucesso!');
@@ -429,7 +435,89 @@ Mensagem simples</textarea>
         }
     }
 
-    // ========== FUNÇÕES BÁSICAS ==========
+    // MÉTODO 1: Inserção direta com eventos
+    async function insertTextMethod1(field, message) {
+        try {
+            if (field.tagName === 'TEXTAREA' || field.tagName === 'INPUT') {
+                field.value = message;
+            } else if (field.isContentEditable) {
+                field.textContent = message;
+            }
+            
+            // Dispara TODOS os eventos necessários
+            const events = ['input', 'change', 'keydown', 'keyup', 'keypress', 'focus', 'blur'];
+            for (const eventType of events) {
+                field.dispatchEvent(new Event(eventType, { bubbles: true }));
+                await delay(10);
+            }
+            
+            await delay(200);
+            return getFieldText(field) === message;
+        } catch (error) {
+            return false;
+        }
+    }
+
+    // MÉTODO 2: Usando execCommand (para campos rich text)
+    async function insertTextMethod2(field, message) {
+        try {
+            // Foca no campo
+            field.focus();
+            await delay(200);
+            
+            // Seleciona todo o conteúdo
+            const selection = window.getSelection();
+            const range = document.createRange();
+            range.selectNodeContents(field);
+            selection.removeAllRanges();
+            selection.addRange(range);
+            
+            // Usa execCommand para inserir (funciona em muitos editores)
+            document.execCommand('insertText', false, message);
+            
+            await delay(300);
+            
+            return getFieldText(field) === message;
+        } catch (error) {
+            return false;
+        }
+    }
+
+    // MÉTODO 3: Simulação de digitação caractere por caractere
+    async function simulateTyping(field, text) {
+        try {
+            // Limpa o campo novamente
+            if (field.tagName === 'TEXTAREA' || field.tagName === 'INPUT') {
+                field.value = '';
+            } else {
+                field.textContent = '';
+            }
+            
+            await delay(100);
+
+            // Insere caractere por caractere (mais lento mas mais confiável)
+            for (let i = 0; i < text.length; i++) {
+                const char = text[i];
+                
+                if (field.tagName === 'TEXTAREA' || field.tagName === 'INPUT') {
+                    field.value += char;
+                } else {
+                    field.textContent += char;
+                }
+                
+                // Dispara evento de input a cada caractere
+                field.dispatchEvent(new Event('input', { bubbles: true }));
+                await delay(30); // Pequeno delay entre caracteres
+            }
+            
+            await delay(200);
+            return getFieldText(field) === text;
+        } catch (error) {
+            return false;
+        }
+    }
+
+    // ========== FUNÇÕES BÁSICAS CORRIGIDAS ==========
     function getFieldText(field) {
         if (field.tagName === 'TEXTAREA' || field.tagName === 'INPUT') {
             return field.value || '';
@@ -439,18 +527,61 @@ Mensagem simples</textarea>
         return '';
     }
 
-    async function basicSend(field) {
-        // Tentar botão primeiro
+    // Sistema de envio melhorado
+    async function advancedSend(field) {
+        // Tentar vários métodos de envio
+        
+        // Método 1: Botão de enviar
         const buttonSent = await findAndClickSendButton();
         if (buttonSent) return true;
         
-        // Tentar Enter
-        return await simulateEnterKey(field);
+        // Método 2: Enter com eventos completos
+        const enterSent = await simulateCompleteEnter(field);
+        if (enterSent) return true;
+        
+        // Método 3: Submit do formulário
+        const formSent = await findAndSubmitForm(field);
+        if (formSent) return true;
+        
+        // Método 4: Click no campo e Enter
+        const clickEnterSent = await clickAndEnter(field);
+        if (clickEnterSent) return true;
+        
+        return false;
     }
 
-    async function simulateEnterKey(field) {
+    // Enter melhorado
+    async function simulateCompleteEnter(field) {
         try {
             await delay(500);
+            
+            // Dispara todos os eventos do Enter
+            const events = ['keydown', 'keypress', 'keyup'];
+            for (const eventType of events) {
+                const event = new KeyboardEvent(eventType, {
+                    key: 'Enter',
+                    code: 'Enter',
+                    keyCode: 13,
+                    which: 13,
+                    bubbles: true,
+                    cancelable: true
+                });
+                field.dispatchEvent(event);
+                await delay(50);
+            }
+            
+            await delay(1000);
+            return true;
+        } catch (error) {
+            return false;
+        }
+    }
+
+    // Click e Enter alternativo
+    async function clickAndEnter(field) {
+        try {
+            field.click();
+            await delay(300);
             
             const enterEvent = new KeyboardEvent('keydown', {
                 key: 'Enter',
@@ -468,24 +599,59 @@ Mensagem simples</textarea>
         }
     }
 
+    // Encontrar e submeter formulário
+    async function findAndSubmitForm(field) {
+        try {
+            let element = field;
+            // Encontrar o formulário pai
+            while (element && element !== document.body) {
+                if (element.tagName === 'FORM') {
+                    element.submit();
+                    await delay(1500);
+                    return true;
+                }
+                element = element.parentElement;
+            }
+            return false;
+        } catch (error) {
+            return false;
+        }
+    }
+
     async function findCommentField() {
         const selectors = [
             'textarea',
             'input[type="text"]',
+            'input[type="search"]',
             '[contenteditable="true"]',
             '[role="textbox"]',
             '.comment-input',
-            '.comment-field'
+            '.comment-field',
+            '.public-DraftEditor-content',
+            '[data-text="true"]',
+            '.editable',
+            '.richEditor'
         ];
 
         for (const selector of selectors) {
             const elements = document.querySelectorAll(selector);
             for (const element of elements) {
                 if (isVisible(element) && isEditableElement(element)) {
+                    console.log('Campo encontrado:', selector, element);
                     return element;
                 }
             }
         }
+        
+        // Tentar encontrar por atributos
+        const elementsByAttr = document.querySelectorAll('[contenteditable], [role="textbox"], [data-mentionable]');
+        for (const element of elementsByAttr) {
+            if (isVisible(element) && isEditableElement(element)) {
+                console.log('Campo encontrado por atributo:', element);
+                return element;
+            }
+        }
+        
         return null;
     }
 
@@ -494,17 +660,40 @@ Mensagem simples</textarea>
             'button[type="submit"]',
             'button:contains("Enviar")',
             'button:contains("Comment")',
-            'button:contains("Post")'
+            'button:contains("Post")',
+            'button:contains("Publicar")',
+            'button:contains("Send")',
+            'button[aria-label*="comment"]',
+            'button[aria-label*="post"]',
+            'button[aria-label*="send"]',
+            '.comment-submit',
+            '.post-button',
+            '.send-button'
         ];
 
         for (const selector of buttonSelectors) {
             try {
-                const buttons = document.querySelectorAll(selector);
-                for (const button of buttons) {
-                    if (isVisible(button) && !button.disabled) {
-                        button.click();
-                        await delay(1500);
-                        return true;
+                // Para seletores com :contains (jQuery-like)
+                if (selector.includes(':contains(')) {
+                    const text = selector.match(/:contains\("([^"]+)"\)/)[1];
+                    const buttons = document.querySelectorAll('button');
+                    for (const button of buttons) {
+                        if (isVisible(button) && !button.disabled && 
+                            (button.textContent.includes(text) || button.innerText.includes(text))) {
+                            button.click();
+                            await delay(1500);
+                            return true;
+                        }
+                    }
+                } else {
+                    // Para seletores CSS normais
+                    const buttons = document.querySelectorAll(selector);
+                    for (const button of buttons) {
+                        if (isVisible(button) && !button.disabled) {
+                            button.click();
+                            await delay(1500);
+                            return true;
+                        }
                     }
                 }
             } catch (error) {
@@ -517,11 +706,18 @@ Mensagem simples</textarea>
     function isEditableElement(element) {
         return element.tagName === 'TEXTAREA' || 
                element.tagName === 'INPUT' || 
-               element.isContentEditable;
+               element.isContentEditable ||
+               element.getAttribute('role') === 'textbox' ||
+               element.classList.contains('editable');
     }
 
     function isVisible(element) {
-        return element.offsetWidth > 0 && element.offsetHeight > 0;
+        if (!element) return false;
+        const style = window.getComputedStyle(element);
+        return style.display !== 'none' && 
+               style.visibility !== 'hidden' && 
+               element.offsetWidth > 0 && 
+               element.offsetHeight > 0;
     }
 
     function delay(ms) {
@@ -557,5 +753,5 @@ Mensagem simples</textarea>
         document.getElementById('closeBtn').onclick = window.closePanel;
     }, 100);
 
-    console.log('🚀 COMENTER PRO - Texto EXATO ativado!');
+    console.log('🚀 COMENTER PRO - Texto EXATO CORRIGIDO ativado!');
 })();
